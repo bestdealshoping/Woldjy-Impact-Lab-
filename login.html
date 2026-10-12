@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<a class="skip-link" href="#contenu">Aller au contenu</a>
 
 <header class="site-header">
   <div class="container nav-wrap">
@@ -16,18 +17,18 @@
     </a>
     <button class="menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false">Menu</button>
     <nav class="nav-links" aria-label="Navigation principale">
-      <a href="index.html">Accueil</a><a href="services.html">Services</a><a href="offers.html">Formations</a><a href="process.html">Notre méthode</a><a href="audit.html">Audit</a><a href="contact.html">Contact</a><a href="acceuil_bibliotheque.html">Bibliothèque</a>
+      <a href="index.html">Accueil</a><a href="services.html">Services</a><a href="offers.html">Formations</a><a href="process.html">Notre méthode</a><a href="audit.html">Audit</a><a href="contact.html">Contact</a><a href="acceuil_bibliotheque.html">Bibliothèque</a><a href="login.html" data-auth-link>Connexion</a>
     </nav>
     <div class="nav-actions"><a class="btn btn-primary" href="audit.html">Parlons de votre projet</a></div>
   </div>
 </header>
 
 
-<main><section class="page-hero"><div class="container"><div class="breadcrumb"><a href="index.html">Accueil</a> / <a href="acceuil_bibliotheque.html">Bibliothèque</a> / Connexion</div><span class="eyebrow">Espace lecteur</span><h1>Heureux de vous retrouver.</h1><p>Connectez-vous pour accéder à votre espace bibliothèque.</p></div></section>
-<section class="section"><div class="container" style="max-width:620px"><form class="form-card" data-library-auth><div class="form-grid">
+<main id="contenu"><section class="page-hero"><div class="container"><div class="breadcrumb"><a href="index.html">Accueil</a> / <a href="acceuil_bibliotheque.html">Bibliothèque</a> / Connexion</div><span class="eyebrow">Espace lecteur</span><h1>Heureux de vous retrouver.</h1><p>Connectez-vous pour accéder à votre espace bibliothèque.</p></div></section>
+<section class="section"><div class="container" style="max-width:620px"><form class="form-card" data-auth="login"><div class="form-grid">
 <div class="field full"><label for="login-email">Adresse e-mail *</label><input id="login-email" name="email" type="email" required autocomplete="email"></div>
 <div class="field full"><label for="login-password">Mot de passe *</label><input id="login-password" name="password" type="password" required autocomplete="current-password"></div>
-<div class="field full"><button class="btn btn-primary" type="submit">Se connecter</button><div class="notice-success" role="status"></div><p class="form-note">La connexion réelle doit être activée avec Supabase Auth avant de publier le site.</p></div>
+<div class="field full"><button class="btn btn-primary" type="submit">Se connecter</button><div class="notice-success" role="status"></div></div>
 </div></form><p class="small" style="text-align:center;margin-top:20px">Pas encore de compte ? <a href="register.html" style="color:var(--blue);font-weight:800">Créer un compte</a></p></div></section></main>
 
 
@@ -37,11 +38,12 @@
       <div class="footer-brand"><a class="brand" href="index.html"><span class="brand-mark">W</span><span>Woldjy Impact Lab<small>Innovation · Impact · Croissance</small></span></a><p>Nous aidons les entrepreneurs, les étudiants et les organisations à transformer leurs idées en projets numériques concrets.</p></div>
       <div><h4>Explorer</h4><div class="footer-links"><a href="index.html">Accueil</a><a href="services.html">Nos services</a><a href="offers.html">Formations</a><a href="process.html">Notre méthode</a></div></div>
       <div><h4>Ressources</h4><div class="footer-links"><a href="audit.html">Audit stratégique</a><a href="acceuil_bibliotheque.html">Bibliothèque numérique</a><a href="contact.html">Nous contacter</a></div></div>
-      <div><h4>Contact</h4><div class="footer-links"><a href="mailto:contact@woldjyimpactlab.com">contact@woldjyimpactlab.com</a><span>Cap-Haïtien, Haïti</span><a href="https://bestdealshoping.github.io/Woldjy-Impact-Lab/">Site officiel</a></div></div>
+      <div><h4>Contact</h4><div class="footer-links"><a href="mailto:contact@woldjyimpactlab.com">contact@woldjyimpactlab.com</a><span>Cap-Haïtien, Haïti</span><a href="https://bestdealshoping.github.io/Woldjy-Impact-Lab-/">Site officiel</a></div></div>
     </div>
     <div class="footer-bottom"><span>© <span data-year>2026</span> Woldjy Impact Lab. Tous droits réservés.</span><span>Une idée mérite une stratégie et une exécution solide.</span></div>
   </div>
 </footer>
 <script src="js/script.js" defer></script>
+<script type="module" src="js/supabase.js"></script>
 
 </body></html>

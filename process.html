@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<a class="skip-link" href="#contenu">Aller au contenu</a>
 
 <header class="site-header">
   <div class="container nav-wrap">
@@ -16,14 +17,14 @@
     </a>
     <button class="menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false">Menu</button>
     <nav class="nav-links" aria-label="Navigation principale">
-      <a href="index.html">Accueil</a><a href="services.html">Services</a><a href="offers.html">Formations</a><a href="process.html">Notre méthode</a><a href="audit.html">Audit</a><a href="contact.html">Contact</a><a href="acceuil_bibliotheque.html">Bibliothèque</a>
+      <a href="index.html">Accueil</a><a href="services.html">Services</a><a href="offers.html">Formations</a><a href="process.html">Notre méthode</a><a href="audit.html">Audit</a><a href="contact.html">Contact</a><a href="acceuil_bibliotheque.html">Bibliothèque</a><a href="login.html" data-auth-link>Connexion</a>
     </nav>
     <div class="nav-actions"><a class="btn btn-primary" href="audit.html">Parlons de votre projet</a></div>
   </div>
 </header>
 
 
-<main><section class="page-hero"><div class="container"><div class="breadcrumb"><a href="index.html">Accueil</a> / Notre méthode</div><span class="eyebrow">Une démarche claire</span><h1>De la compréhension du besoin à la mise en œuvre.</h1><p>Nous organisons le travail en étapes pour clarifier les priorités, réduire les incertitudes et construire des solutions adaptées.</p></div></section>
+<main id="contenu"><section class="page-hero"><div class="container"><div class="breadcrumb"><a href="index.html">Accueil</a> / Notre méthode</div><span class="eyebrow">Une démarche claire</span><h1>De la compréhension du besoin à la mise en œuvre.</h1><p>Nous organisons le travail en étapes pour clarifier les priorités, réduire les incertitudes et construire des solutions adaptées.</p></div></section>
 <section class="section"><div class="container grid-4">
 <article class="card process-step"><div class="process-number">01</div><h3>Écouter</h3><p>Comprendre votre activité, votre public, vos contraintes et vos objectifs.</p></article>
 <article class="card process-step"><div class="process-number">02</div><h3>Analyser</h3><p>Examiner l'existant, identifier les blocages et déterminer les priorités.</p></article>
@@ -38,11 +39,12 @@
       <div class="footer-brand"><a class="brand" href="index.html"><span class="brand-mark">W</span><span>Woldjy Impact Lab<small>Innovation · Impact · Croissance</small></span></a><p>Nous aidons les entrepreneurs, les étudiants et les organisations à transformer leurs idées en projets numériques concrets.</p></div>
       <div><h4>Explorer</h4><div class="footer-links"><a href="index.html">Accueil</a><a href="services.html">Nos services</a><a href="offers.html">Formations</a><a href="process.html">Notre méthode</a></div></div>
       <div><h4>Ressources</h4><div class="footer-links"><a href="audit.html">Audit stratégique</a><a href="acceuil_bibliotheque.html">Bibliothèque numérique</a><a href="contact.html">Nous contacter</a></div></div>
-      <div><h4>Contact</h4><div class="footer-links"><a href="mailto:contact@woldjyimpactlab.com">contact@woldjyimpactlab.com</a><span>Cap-Haïtien, Haïti</span><a href="https://bestdealshoping.github.io/Woldjy-Impact-Lab/">Site officiel</a></div></div>
+      <div><h4>Contact</h4><div class="footer-links"><a href="mailto:contact@woldjyimpactlab.com">contact@woldjyimpactlab.com</a><span>Cap-Haïtien, Haïti</span><a href="https://bestdealshoping.github.io/Woldjy-Impact-Lab-/">Site officiel</a></div></div>
     </div>
     <div class="footer-bottom"><span>© <span data-year>2026</span> Woldjy Impact Lab. Tous droits réservés.</span><span>Une idée mérite une stratégie et une exécution solide.</span></div>
   </div>
 </footer>
 <script src="js/script.js" defer></script>
+<script type="module" src="js/supabase.js"></script>
 
 </body></html>

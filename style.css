@@ -3,3 +3,10 @@
 @media(max-width:1000px){.nav-links{gap:13px}.nav-links a{font-size:.83rem}.nav-actions .btn{padding:10px 13px}.grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}.footer-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-grid{gap:25px}}
 @media(max-width:760px){.container{width:min(100% - 30px,600px)}.nav-wrap{min-height:72px}.menu-toggle{display:block}.nav-links{display:none;position:absolute;top:71px;left:0;right:0;background:#fff;padding:18px 22px 24px;border-bottom:1px solid var(--line);box-shadow:var(--shadow);align-items:stretch;flex-direction:column;gap:0}.nav-links.open{display:flex}.nav-links a{padding:11px 4px;font-size:.96rem}.nav-actions{display:none}.hero-grid,.split,.form-layout{grid-template-columns:1fr}.hero-grid{padding:58px 0 55px}.hero-visual{min-height:330px}.orbit{width:310px}.orbit-core{width:120px;height:120px;font-size:1rem}.float-card{font-size:.76rem;padding:10px 12px}.float-a{left:0}.float-b{right:0}.section{padding:60px 0}.grid-2,.grid-3,.grid-4,.stats{grid-template-columns:1fr}.cta-band{padding:28px;align-items:flex-start;flex-direction:column}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.footer-grid{grid-template-columns:1fr 1fr;gap:28px}.footer-bottom{flex-direction:column}.page-hero{padding:48px 0}.card{padding:23px}}
 @media(max-width:430px){.brand{font-size:.94rem}.brand-mark{width:39px;height:39px}.footer-grid{grid-template-columns:1fr}.hero-actions .btn{width:100%}.hero-visual{min-height:300px}.orbit{width:270px}.float-a{top:8px}.float-b{top:95px}.float-c{bottom:5px}}
+.nav-links a.active{color:var(--blue)}
+.notice-success.error{background:#fdecec;color:#8a1f1f}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.skip-link{position:absolute;left:-9999px;top:8px;background:var(--navy);color:#fff;padding:10px 14px;border-radius:10px;z-index:100}
+.skip-link:focus{left:12px}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.btn:disabled{opacity:.6;cursor:not-allowed;transform:none}

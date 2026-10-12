@@ -2,8 +2,8 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Créer un compte | Woldjy Impact Lab</title>
-<meta name="description" content="Créez un compte pour accéder aux fonctionnalités de la bibliothèque numérique.">
+<title>Espace bibliothèque | Woldjy Impact Lab</title>
+<meta name="description" content="Espace de consultation des ressources de la bibliothèque numérique.">
 <meta name="theme-color" content="#101a35">
 <link rel="stylesheet" href="style.css">
 </head>
@@ -24,14 +24,12 @@
 </header>
 
 
-<main id="contenu"><section class="page-hero"><div class="container"><div class="breadcrumb"><a href="index.html">Accueil</a> / <a href="acceuil_bibliotheque.html">Bibliothèque</a> / Inscription</div><span class="eyebrow">Espace lecteur</span><h1>Créer votre compte.</h1><p>Préparez votre espace lecteur pour accéder aux ressources de la bibliothèque.</p></div></section>
-<section class="section"><div class="container" style="max-width:680px"><form class="form-card" data-auth="register"><div class="form-grid">
-<div class="field full"><label for="full-name">Nom complet *</label><input id="full-name" name="full_name" required autocomplete="name"></div>
-<div class="field full"><label for="reg-email">Adresse e-mail *</label><input id="reg-email" name="email" type="email" required autocomplete="email"></div>
-<div class="field"><label for="reg-password">Mot de passe *</label><input id="reg-password" name="password" type="password" minlength="8" required autocomplete="new-password"></div>
-<div class="field"><label for="reg-confirm">Confirmer le mot de passe *</label><input id="reg-confirm" name="confirm_password" type="password" minlength="8" required autocomplete="new-password"></div>
-<div class="field full"><button class="btn btn-primary" type="submit">Créer mon compte</button><div class="notice-success" role="status"></div><p class="form-note">Au moins 8 caractères. Un e-mail de confirmation vous sera envoyé.</p></div>
-</div></form><p class="small" style="text-align:center;margin-top:20px">Vous avez déjà un compte ? <a href="login.html" style="color:var(--blue);font-weight:800">Se connecter</a></p></div></section></main>
+<main id="contenu"><section class="page-hero"><div class="container"><div class="breadcrumb"><a href="index.html">Accueil</a> / <a href="acceuil_bibliotheque.html">Bibliothèque</a> / Espace lecteur</div><span class="eyebrow">Votre espace</span><h1>Ressources de la bibliothèque.</h1><p data-library-hello></p></div></section>
+<section class="section"><div class="container" data-library>
+<div class="section-head"><h2>Collection disponible</h2></div>
+<p class="muted" data-library-status role="status">Chargement des documents…</p>
+<div class="grid-3" data-library-list></div>
+</div></section></main>
 
 
 <footer class="site-footer">

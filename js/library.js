@@ -55,7 +55,7 @@
     var list = h("div", { class: "grid grid-3" });
     root.append(up, h("h2", { style: "margin-top:2rem" }, "Livres disponibles"), list);
     function loadDocs() {
-      db.from("documents").select("id,title,author,description,file_path,status,uploaded_by").order("created_at", { ascending: false }).then(function (r) {
+      db.from("documents").select("id,title,author,description,file_path,cover_path,status,uploaded_by").order("created_at", { ascending: false }).then(function (r) {
         list.textContent = "";
         if (r.error) { list.textContent = "Impossible de charger les livres."; return; }
         if (!r.data.length) list.textContent = "Aucun livre pour le moment.";

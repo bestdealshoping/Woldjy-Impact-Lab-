@@ -27,7 +27,7 @@ window.wilForm = function (fields, vals, label, onSubmit) {
     if (x[2] === "textarea") inp = h("textarea", { id: id, name: x[0] });
     else if (x[2] === "select") { inp = h("select", { id: id, name: x[0] }); x[3].forEach(function (o) { inp.appendChild(h("option", { value: o[0] }, o[1])); }); }
     else inp = h("input", { id: id, name: x[0], type: x[2] || "text" });
-    if (x[2] === "file") inp.setAttribute("accept", ".pdf,.epub");
+    if (x[2] === "file") inp.setAttribute("accept", x[0] === "cover" ? "image/jpeg,image/png,image/webp" : ".pdf,.epub");
     if (vals && x[2] !== "file") { if (x[2] === "checkbox") inp.checked = !!vals[x[0]]; else if (vals[x[0]] != null) inp.value = vals[x[0]]; }
     if (x[4]) inp.required = true;
     var lab = h("label", { for: id }, x[1] + (x[4] ? " *" : ""));

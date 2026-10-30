@@ -41,7 +41,7 @@
           a.push(["Modifier", function () { edit(d); }]);
           a.push(["Supprimer", function () {
             if (!confirm("Supprimer « " + d.title + " » ?")) return;
-            db.storage.from("library").remove([d.file_path]).then(function () { return db.from("documents").delete().eq("id", d.id); }).then(load);
+            db.storage.from("library").remove([d.file_path].concat(d.cover_path ? [d.cover_path] : [])).then(function () { return db.from("documents").delete().eq("id", d.id); }).then(load);
           }]);
           list.appendChild(h("div", { class: "card" }, h("span", { class: "tag" }, LABEL[d.status]), h("h3", {}, d.title), h("p", {}, [d.author, d.category].filter(Boolean).join(" · ")), actions(a)));
         });
@@ -125,18 +125,18 @@
   // ---------- Membres ----------
   function members(p) {
     var list = h("div", { class: "grid" });
-    p.append(h("h2", {}, "Membres"), h("p", {}, "Accès automatique à 5 inscriptions confirmées via le lien du membre. Vous pouvez aussi l'accorder ou le retirer à la main."), list);
+    p.append(h("h2", {}, "Membres"), h("p", {}, "Tous les membres ayant confirmé leur compte peuvent accéder à la bibliothèque. Les partages sont suivis séparément et ne conditionnent plus l'accès."), list);
     function load() {
       db.rpc("admin_members").then(function (r) {
         list.textContent = "";
         if (r.error) { list.textContent = "Erreur de chargement."; return; }
+        if (!r.data.length) list.textContent = "Aucun membre pour le moment.";
         r.data.forEach(function (m) {
-          var auto = m.referrals >= 5;
-          list.appendChild(h("div", { class: "card" }, h("span", { class: "tag" }, m.role === "admin" ? "Admin" : (auto || m.access_override ? "Accès actif" : "Sans accès")),
-            h("h3", {}, m.full_name || "(sans nom)"), h("p", {}, m.email + " · parrainages confirmés : " + m.referrals + " / 5" + (m.access_override ? " · accès accordé" : "")),
-            actions([[m.access_override ? "Retirer l'accès manuel" : "Accorder l'accès", function () {
-              db.rpc("admin_set_access", { uid: m.id, allow: !m.access_override }).then(load);
-            }]])));
+          list.appendChild(h("div", { class: "card" },
+            h("span", { class: "tag" }, m.role === "admin" ? "Administrateur" : "Accès actif"),
+            h("h3", {}, m.full_name || "(sans nom)"),
+            h("p", {}, (m.email || "") + " · Inscriptions référées : " + (m.referrals || 0))
+          ));
         });
       });
     }

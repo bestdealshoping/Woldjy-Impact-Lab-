@@ -1,4 +1,4 @@
-// Espace lecteur : lien de partage, progression (x/5), dépôt et téléchargement de livres.
+// Espace lecteur : lien de partage, compteur de partages, dépôt et téléchargement de livres.
 (function () {
   var db = window.wilDb, root = document.getElementById("library-app"), h = wilEl;
   if (!root) return;

@@ -8,7 +8,7 @@
     var uid = s.data.session.user.id;
     Promise.all([
       db.from("profiles").select("role,referral_code,full_name").eq("id", uid).single(),
-      db.rpc("has_access"), db.rpc("my_referral_count")
+      db.rpc("has_access"), db.rpc("my_share_count")
     ]).then(function (r) {
       if (r[0].error) { root.textContent = "Impossible de charger votre profil."; return; }
       render(uid, r[0].data, r[1].data === true, r[2].data || 0);
@@ -23,19 +23,23 @@
     if (me.role === "admin") top.appendChild(h("a", { class: "btn btn-primary", href: "admin.html" }, "Administration"));
     top.appendChild(h("button", { class: "btn btn-outline", type: "button", on: { click: function () { db.auth.signOut().then(function () { location.href = "login.html"; }); } } }, "Se déconnecter"));
 
-    var share = h("div", { class: "card" }, h("h2", {}, access ? "Votre accès est actif" : "Débloquez l'accès à la bibliothèque"),
-      h("p", {}, "Pour accéder aux livres, 5 personnes doivent créer un compte avec votre lien personnel et confirmer leur e-mail. Progression : " + Math.min(count, 5) + " / 5."),
-      h("progress", { max: "5", value: String(Math.min(count, 5)), style: "width:100%" }),
+    var share = h("div", { class: "card" }, h("h2", {}, "Votre bibliothèque est accessible"),
+      h("p", {}, "Nombre de partages enregistrés depuis votre compte : " + count + ". Chaque utilisation d’un bouton de partage augmente ce compteur."),
+      h("p", { class: "tag" }, "Partages : " + count),
       h("div", { class: "field", style: "margin-top:1rem" }, h("label", { for: "ref-link" }, "Votre lien de partage"), h("input", { id: "ref-link", value: link, readonly: "" })));
     var a = h("div", { class: "actions" });
     a.appendChild(h("button", { class: "btn btn-primary", type: "button", on: { click: function () {
+      db.rpc("record_share").then(function (r) {
+        if (!r.error) { var badge = share.querySelector(".tag"); if (badge) badge.textContent = "Partages : " + r.data; }
+      });
       if (navigator.share) navigator.share({ title: "Woldjy Impact Lab", text: text, url: link }).catch(function () {});
       else navigator.clipboard.writeText(link).then(function () { alert("Lien copié."); });
     } } }, "Partager"));
-    a.appendChild(h("a", { class: "btn btn-outline", href: "https://wa.me/?text=" + encodeURIComponent(text), target: "_blank", rel: "noopener" }, "WhatsApp"));
+    a.appendChild(h("a", { class: "btn btn-outline", href: "https://wa.me/?text=" + encodeURIComponent(text), target: "_blank", rel: "noopener", on: { click: function () {
+      db.rpc("record_share").then(function (r) { if (!r.error) { var badge = share.querySelector(".tag"); if (badge) badge.textContent = "Partages : " + r.data; } });
+    } } }, "WhatsApp"));
     share.appendChild(a);
     root.append(top, share);
-    if (!access) return;
 
     var up = h("div", { style: "margin-top:2rem" }, h("h2", {}, "Partager un livre"),
       h("p", {}, "Ne déposez que des documents dont vous détenez les droits de diffusion. Chaque dépôt est vérifié par l'équipe avant publication."));

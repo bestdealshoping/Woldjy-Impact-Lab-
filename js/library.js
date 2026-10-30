@@ -62,6 +62,9 @@
         r.data.forEach(function (d) {
           var c = h("div", { class: "card" });
           if (d.status !== "approved") c.appendChild(h("span", { class: "tag" }, d.status === "pending" ? "Votre dépôt : en attente" : "Votre dépôt : refusé"));
+          if (d.cover_path) db.storage.from("library").createSignedUrl(d.cover_path, 300).then(function (u) {
+            if (!u.error) { var img = h("img", { src: u.data.signedUrl, alt: "Couverture de " + d.title, loading: "lazy", style: "width:100%;height:220px;object-fit:cover;border-radius:14px;margin-bottom:1rem" }); c.insertBefore(img, c.firstChild); }
+          });
           c.append(h("h3", {}, d.title), h("p", {}, [d.author, d.description].filter(Boolean).join(" · ")));
           c.appendChild(h("button", { class: "btn btn-outline", type: "button", on: { click: function (e) {
             var b = e.currentTarget;

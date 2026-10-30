@@ -51,13 +51,15 @@
     function edit(d) {
       box.textContent = "";
       var fields = [["title", "Titre", "text", null, true], ["author", "Auteur"], ["category", "Catégorie"], ["description", "Description", "textarea"],
+        ["cover", d ? "Remplacer la couverture (JPG, PNG ou WEBP)" : "Image de couverture (JPG, PNG ou WEBP)", "file", null, false],
         ["status", "Statut", "select", [["approved", "Approuvé"], ["pending", "En attente"], ["rejected", "Refusé"]]],
         ["file", d ? "Remplacer le fichier (PDF ou EPUB, 20 Mo max)" : "Fichier (PDF ou EPUB, 20 Mo max)", "file", null, !d]];
       box.appendChild(wilForm(fields, d || { status: "approved" }, d ? "Enregistrer" : "Ajouter", function (v, say, btn, f) {
         btn.disabled = true;
         var rec = { title: v.title, author: v.author, category: v.category, description: v.description, status: v.status };
-        function save(path) {
+        function save(path, coverPath) {
           if (path) rec.file_path = path;
+          if (coverPath) rec.cover_path = coverPath;
           var q = d ? db.from("documents").update(rec).eq("id", d.id) : db.from("documents").insert(rec);
           q.then(function (r) {
             btn.disabled = false;
@@ -65,14 +67,22 @@
             say("Enregistré.", true); if (!d) f.reset(); load();
           });
         }
-        if (v.file) {
-          var path = "admin/" + Date.now() + "-" + wilSafeName(v.file.name);
-          db.storage.from("library").upload(path, v.file).then(function (r) {
-            if (r.error) { btn.disabled = false; return say("Envoi du fichier impossible : " + r.error.message, false); }
-            if (d) db.storage.from("library").remove([d.file_path]);
-            save(path);
+        var stamp = Date.now();
+        function uploadCover(filePath) {
+          if (!v.cover) return save(filePath, null);
+          var cp = "admin/covers/" + stamp + "-" + wilSafeName(v.cover.name);
+          db.storage.from("library").upload(cp, v.cover, { upsert: false }).then(function (r) {
+            if (r.error) { btn.disabled = false; return say("Envoi de la couverture impossible : " + r.error.message, false); }
+            save(filePath, cp);
           });
-        } else save();
+        }
+        if (v.file) {
+          var path = "admin/books/" + stamp + "-" + wilSafeName(v.file.name);
+          db.storage.from("library").upload(path, v.file, { upsert: false }).then(function (r) {
+            if (r.error) { btn.disabled = false; return say("Envoi du fichier impossible : " + r.error.message, false); }
+            uploadCover(path);
+          });
+        } else uploadCover(null);
       }));
     }
     edit(null); load();

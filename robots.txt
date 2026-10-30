@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /login.html
+Disallow: /register.html
+Disallow: /bibliotheque.html
+Disallow: /admin.html
+Sitemap: https://bestdealshoping.github.io/Woldjy-Impact-Lab-/sitemap.xml

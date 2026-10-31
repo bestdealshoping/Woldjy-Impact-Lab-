@@ -13,7 +13,7 @@ class MainActivity : Activity() {
     private lateinit var webView: WebView
     private lateinit var progress: ProgressBar
     private lateinit var errorBox: LinearLayout
-    private val home = "https://woldjy-impact-lab.vercel.app"
+    private val home = "https://bestdealshoping.github.io/Woldjy-Impact-Lab-/"
 
     @Suppress("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {

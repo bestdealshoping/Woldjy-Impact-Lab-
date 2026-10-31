@@ -25,8 +25,11 @@
         : db.auth.signInWithPassword({ email: email, password: pw });
       req.then(function (r) {
         if (r.error) return say(form, isRegister ? "Inscription impossible : " + r.error.message : "E-mail ou mot de passe incorrect.", false);
-        if (isRegister) return say(form, "Compte créé. Vérifiez votre e-mail pour confirmer votre adresse.", true);
-        location.href = "bibliotheque.html";
+        if (isRegister) return say(form, "Compte créé. Vérifiez votre e-mail pour confirmer votre adresse. Vous pourrez ensuite vous connecter.", true);
+        return db.from("profiles").select("role").eq("id", r.data.user.id).single().then(function (profile) {
+          if (profile.error) return say(form, "Connexion réussie, mais profil introuvable. Contactez l'équipe.", false);
+          location.href = profile.data.role === "admin" ? "admin.html" : "espace-client.html";
+        });
       }).finally(function () { btn.disabled = false; });
     });
   });

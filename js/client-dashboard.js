@@ -41,7 +41,7 @@ db.from("profiles").select("full_name,role").eq("id",current.id).single().then(f
 if(p.error){welcome.textContent="Mon espace client";}else{if(p.data.role==="admin"){location.replace("admin.html");return;}welcome.textContent="Bonjour, "+(p.data.full_name||current.email||"membre")+".";}
 });
 loadNotifications();loadMessages();loadSubmissions();
-if(db.channel){channel=db.channel("client-live-"+current.id).on("postgres_changes",{event:"INSERT",schema:"public",table:"wil_notifications",filter:"user_id=eq."+current.id},function(){loadNotifications();}).on("INSERT",{schema:"public",table:"wil_messages"},function(payload){if(payload.new.sender_id!==current.id)loadMessages();}).subscribe();}
+if(db.channel){channel=db.channel("client-live-"+current.id).on("postgres_changes",{event:"INSERT",schema:"public",table:"wil_notifications",filter:"user_id=eq."+current.id},function(){loadNotifications();}).on("postgres_changes",{event:"INSERT",schema:"public",table:"wil_messages"},function(payload){if(payload.new.sender_id!==current.id)loadMessages();}).subscribe();}
 });
 var logout=document.getElementById("logout");if(logout)logout.onclick=function(){db.auth.signOut().then(function(){location.href="index.html";});};
 var all=document.getElementById("mark-all-read");if(all)all.onclick=function(){all.disabled=true;db.from("wil_notifications").update({read_at:new Date().toISOString()}).eq("user_id",current.id).is("read_at",null).then(function(r){all.disabled=false;if(r.error){alert("Impossible de mettre à jour les notifications.");return;}loadNotifications();});};

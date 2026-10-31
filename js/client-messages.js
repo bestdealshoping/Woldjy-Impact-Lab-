@@ -5,7 +5,7 @@ function node(tag,cls,txt){var n=document.createElement(tag);if(cls)n.className=
 var db=window.wilDb;if(!db){root.textContent="Messagerie indisponible.";return;}
 db.auth.getSession().then(function(sr){
 var session=sr.data&&sr.data.session;
-if(!session){root.innerHTML="";root.append(node("p","", "Connectez-vous pour accéder à vos conversations."));var l=node("a","btn btn-primary","Se connecter");l.href="login.html?redirect=contact.html";root.append(l);return;}
+if(!session){root.innerHTML="";root.append(node("p","", "Connectez-vous pour accéder à vos conversations."));var l=node("a","btn btn-primary","Se connecter");l.href="login.html?redirect=messages.html";root.append(l);return;}
 var uid=session.user.id,active=null,thread=node("div","wil-chat-thread"),list=node("div","wil-chat-list"),notice=node("div","wil-chat-notice");
 var shell=node("div","wil-chat-shell"),side=node("aside","wil-chat-sidebar"),main=node("section","wil-chat-main");
 var top=node("div","wil-chat-top","Vos conversations");side.append(top,list);main.append(thread,notice);shell.append(side,main);

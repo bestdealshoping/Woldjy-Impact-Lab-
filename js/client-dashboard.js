@@ -1,0 +1,20 @@
+(function(){
+document.addEventListener("DOMContentLoaded",function(){
+var db=window.wilDb, welcome=document.getElementById("welcome"), list=document.getElementById("notification-list");
+if(!db){if(list)list.textContent="Service indisponible.";return;}
+var current=null, channel=null;
+function el(tag,cls,txt){var n=document.createElement(tag);if(cls)n.className=cls;if(txt!==undefined)n.textContent=txt;return n;}
+function status(txt,ok){var n=document.getElementById("publication-status");n.textContent=txt;n.className="form-status "+(ok?"ok":"err");}
+function beep(){try{var C=window.AudioContext||window.webkitAudioContext;if(!C)return;var c=new C(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=880;g.gain.value=.08;o.start();o.stop(c.currentTime+.18);}catch(e){}}
+function showNotification(n){var card=el("article","card");card.append(el("h3","",n.title));card.append(el("p","",n.body||""));card.append(el("small","",new Date(n.created_at).toLocaleString()));if(!n.read_at){var b=el("button","btn btn-outline","Marquer comme lu");b.onclick=function(){db.from("wil_notifications").update({read_at:new Date().toISOString()}).eq("id",n.id).then(loadNotifications);};card.append(b);}list.prepend(card);}
+function loadNotifications(){db.from("wil_notifications").select("*").eq("user_id",current.id).order("created_at",{ascending:false}).limit(40).then(function(r){list.textContent="";if(r.error){list.textContent="Erreur de chargement des notifications.";return;}if(!r.data.length){list.textContent="Aucune notification pour le moment.";return;}r.data.forEach(showNotification);document.getElementById("unread-notifications").textContent=r.data.filter(x=>!x.read_at).length+" non lue(s)";});}
+function refreshUnread(){db.from("wil_messages").select("id",{count:"exact",head:true}).eq("is_read",false).neq("sender_id",current.id).then(function(r){document.getElementById("unread-messages").textContent=(r.count||0)+" message(s) non lu(s)";});}
+db.auth.getSession().then(function(r){current=r.data&&r.data.session&&r.data.session.user;if(!current){location.replace("login.html?redirect=espace-client.html");return;}
+db.from("profiles").select("full_name,role").eq("id",current.id).single().then(function(p){if(p.error){welcome.textContent="Mon espace client";}else{if(p.data.role==="admin"){location.replace("admin.html");return;}welcome.textContent="Bienvenue, "+(p.data.full_name||current.email);}});
+loadNotifications();refreshUnread();
+if(db.channel){channel=db.channel("client-live-"+current.id).on("postgres_changes",{event:"INSERT",schema:"public",table:"wil_notifications",filter:"user_id=eq."+current.id},function(payload){beep();showNotification(payload.new);}).on("postgres_changes",{event:"INSERT",schema:"public",table:"wil_messages"},function(payload){if(payload.new.sender_id!==current.id){beep();refreshUnread();}}).subscribe();}
+});
+var logout=document.getElementById("logout");logout.onclick=function(){db.auth.signOut().then(function(){location.href="index.html";});};
+var form=document.getElementById("publication-form");form.addEventListener("submit",async function(e){e.preventDefault();var file=document.getElementById("doc-file").files[0];if(!file||!current)return;var btn=form.querySelector("button[type=submit]");btn.disabled=true;try{var safe=file.name.replace(/[^a-zA-Z0-9._-]/g,"_");var path=current.id+"/"+Date.now()+"-"+safe;var up=await db.storage.from("library").upload(path,file,{upsert:false});if(up.error)throw up.error;var ins=await db.from("documents").insert({title:document.getElementById("doc-title").value.trim(),description:document.getElementById("doc-description").value.trim(),category:document.getElementById("doc-category").value.trim(),file_path:path,author:current.email,status:"pending",uploaded_by:current.id});if(ins.error)throw ins.error;form.reset();status("Votre document a été soumis. Il sera examiné par l'équipe.",true);}catch(err){status("Envoi impossible : "+err.message,false);}finally{btn.disabled=false;}});
+});
+})();

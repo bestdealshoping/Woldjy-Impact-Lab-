@@ -146,3 +146,7 @@ progress{height:14px;accent-color:var(--teal)}input[readonly]{background:#f2f6f7
 .wil-admin-chat{margin-top:20px}
 .wil-admin-chat .wil-chat-main{min-height:550px}
 @media(max-width:680px){.wil-chat-shell{grid-template-columns:1fr;min-height:0}.wil-chat-sidebar{padding:12px}.wil-chat-list{grid-template-columns:1fr 1fr}.wil-chat-main{padding:12px}.wil-chat-feed{max-height:390px}.wil-bubble{max-width:92%}.wil-chat-compose,.wil-chat-reply{grid-template-columns:1fr}.wil-chat-compose input{grid-column:auto}.wil-chat-compose .btn,.wil-chat-reply .btn{width:100%}}
+
+.wil-chat-person-meta{font-size:.78rem;color:#718399;margin:-5px 0 12px;padding:0 14px}
+.wil-admin-chat .wil-chat-item{grid-template-columns:42px 1fr;min-height:66px}
+.wil-admin-chat .wil-chat-state{grid-column:2}

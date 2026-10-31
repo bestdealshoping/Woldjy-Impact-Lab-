@@ -47,7 +47,19 @@
         });
       });
     }
-    function setStatus(id, s) { db.from("documents").update({ status: s }).eq("id", id).then(load); }
+    function setStatus(id, s) {
+      db.from("documents").select("id,title,uploaded_by").eq("id", id).single().then(function (r) {
+        if (r.error) throw r.error;
+        var item = r.data;
+        return db.from("documents").update({ status: s }).eq("id", id).then(function (u) {
+          if (u.error) throw u.error;
+          if (!item.uploaded_by) return;
+          var title = s === "approved" ? "Votre livre a été accepté" : "Mise à jour de votre proposition de livre";
+          var body = s === "approved" ? "Votre ouvrage « " + item.title + " » a été accepté et sera visible dans la bibliothèque." : (s === "rejected" ? "Votre ouvrage « " + item.title + " » n’est pas retenu. Contactez notre équipe pour plus d’informations." : "Le statut de votre ouvrage a changé.");
+          return db.from("wil_notifications").insert({user_id:item.uploaded_by,title:title,body:body,kind:"publication"});
+        });
+      }).then(function (r) { if (r && r.error) throw r.error; load(); }).catch(function (e) { alert("Modification impossible : " + e.message); });
+    }
     function edit(d) {
       box.textContent = "";
       var fields = [["title", "Titre", "text", null, true], ["author", "Auteur"], ["category", "Catégorie"], ["description", "Description", "textarea"],

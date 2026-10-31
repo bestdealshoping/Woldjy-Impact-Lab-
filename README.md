@@ -1,31 +1,47 @@
 # Woldjy Impact Lab
 
-Site vitrine et bibliothèque numérique de Woldjy Impact Lab.
+Site vitrine et espace numérique de Woldjy Impact Lab.
 
-## Structure actuelle
-- Pages HTML à la racine : `index.html`, `services.html`, `offers.html`, `process.html`, `audit.html`, `contact.html`, `acceuil_bibliotheque.html`, `register.html`, `login.html`, `bibliotheque.html`, `confidentialite.html`.
-- `css/style.css` : styles du site.
-- `js/config.js` : configuration publique de Supabase et URLs Formspree.
-- `js/main.js` : navigation et soumission des formulaires.
-- `js/layout.js` : éléments communs du site.
-- `js/auth.js` et scripts associés : authentification et bibliothèque, selon les pages.
-- `android-app/` : projet Android WebView.
-- `.github/workflows/build-android-apk.yml` : génération de l'APK de test.
+## Pages principales
+- `index.html` : accueil
+- `services.html` : services
+- `offers.html` : formations et offres
+- `process.html` : méthode de travail
+- `audit.html` : demande d'audit
+- `contact.html` : contact
+- `confidentialite.html` : politique de confidentialité
+- `register.html` et `login.html` : accès membre
+- `espace-client.html`, `messages.html`, `bibliotheque.html` : espace membre
+- `admin.html` : administration
 
-## Configuration des formulaires
-Les formulaires Audit et Contact utilisent Formspree. Dans `js/config.js`, remplacer :
-- `VOTRE_ID_AUDIT` par l'identifiant réel du formulaire Audit.
-- `VOTRE_ID_CONTACT` par l'identifiant réel du formulaire Contact.
+## Configuration publique
+Le fichier `js/config.js` contient uniquement la clé publique Supabase (publishable) et les endpoints publics Formspree. Ne jamais y placer une clé `service_role`, un mot de passe ou un secret privé.
 
-Tant que ces deux identifiants ne sont pas renseignés, les formulaires ne peuvent pas transmettre les demandes.
+Les formulaires utilisent actuellement :
+- Audit : `https://formspree.io/f/xykkzjgr`
+- Contact : `https://formspree.io/f/xbddlylz`
+
+Pour modifier ces formulaires, mettre à jour les valeurs `FORMSPREE_AUDIT` et `FORMSPREE_CONTACT` dans `js/config.js`, puis vérifier chaque envoi réel.
 
 ## Supabase
-Le site utilise le projet Supabase configuré dans `js/config.js`. La clé présente dans le code doit rester une clé publique (publishable/anon). Ne jamais placer une clé `service_role` dans le dépôt.
+Projet : `smrajunpiymbaexvlvln`.
+Dans Authentication > URL Configuration, définir l'URL principale du site public et autoriser les redirections exactes utilisées par les pages de connexion, inscription et confirmation d'e-mail. Vérifier également les modèles d'e-mail de confirmation et de réinitialisation.
 
-Dans Supabase, Authentication > URL Configuration, définir l'URL principale du site et ajouter les URL de redirection exactes utilisées par le site et l'application. Vérifier aussi les liens de confirmation et de réinitialisation de mot de passe.
-
-## Application Android
-Le dossier `android-app/` contient une application WebView qui charge l'URL définie dans `MainActivity.kt`. L'URL doit correspondre au domaine officiel choisi pour le site. Le workflow actuel produit un APK debug destiné aux essais, pas une version signée pour Google Play.
+La clé du navigateur doit rester une clé publique. La sécurité des données dépend aussi des politiques RLS et des privilèges SQL. Ne jamais désactiver RLS pour résoudre une erreur d'accès.
 
 ## Publication
-Le site web est publié via GitHub Pages et/ou Vercel selon le domaine configuré. Garder une seule URL canonique officielle et rediriger ou harmoniser les autres versions.
+Le site public canonique actuel est GitHub Pages :
+`https://bestdealshoping.github.io/Woldjy-Impact-Lab-/`
+
+Le projet Vercel `woldjy-impact-lab` possède également un déploiement de production. Avant de le promouvoir comme URL publique principale, vérifier la protection SSO, les domaines et la configuration de redirection. Garder une seule URL canonique cohérente dans les balises SEO.
+
+## Application Android
+Le dossier `android-app/` contient le projet Android WebView. L'APK debug sert aux essais. Une version de production doit être signée avec une clé de signature conservée en lieu sûr avant distribution.
+
+## Vérifications avant lancement
+- Tester les formulaires Audit et Contact et confirmer la réception des messages.
+- Tester inscription, confirmation d'e-mail, connexion, déconnexion et récupération du mot de passe.
+- Tester les accès client/admin, la messagerie, les notifications, la bibliothèque et les dépôts de documents.
+- Tester les pages sur téléphone et ordinateur.
+- Vérifier les liens, images, balises SEO et pages d'erreur.
+- Vérifier que le site Vercel n'est pas bloqué par une protection SSO si son domaine doit être public.

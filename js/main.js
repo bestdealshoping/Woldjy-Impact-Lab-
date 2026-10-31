@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var url = window.WIL_CONFIG[form.dataset.formspree];
-      if (!url || url.indexOf("VOTRE_ID") !== -1) { say(form, "Le formulaire n'est pas encore configuré. Écrivez-nous à contact@woldjyimpactlab.com.", false); return; }
+      if (!url || url.indexOf("VOTRE_ID") !== -1) { say(form, "Le formulaire n'est pas encore configuré. Écrivez-nous à woldjyimpactlab@gmail.com.", false); return; }
       var btn = form.querySelector("button[type=submit]"); btn.disabled = true;
       fetch(url, { method: "POST", body: new FormData(form), headers: { Accept: "application/json" } })
         .then(function (r) {

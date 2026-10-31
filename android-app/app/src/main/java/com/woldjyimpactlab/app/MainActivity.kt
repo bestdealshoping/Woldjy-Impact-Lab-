@@ -2,11 +2,12 @@ package com.woldjyimpactlab.app
 
 import android.app.Activity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.webkit.*
 import android.widget.*
 import android.content.Intent
-import android.net.Uri
 import android.graphics.Color
 
 class MainActivity : Activity() {
@@ -14,11 +15,12 @@ class MainActivity : Activity() {
     private lateinit var progress: ProgressBar
     private lateinit var errorBox: LinearLayout
     private val home = "https://bestdealshoping.github.io/Woldjy-Impact-Lab-/"
+    private val logo = "https://raw.githubusercontent.com/bestdealshoping/Woldjy-Impact-Lab-/main/wil-logo-small-1.jpg"
 
     @Suppress("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.statusBarColor = Color.rgb(10, 18, 35)
+        window.statusBarColor = Color.rgb(5, 8, 18)
         window.navigationBarColor = Color.BLACK
 
         val root = FrameLayout(this)
@@ -32,12 +34,12 @@ class MainActivity : Activity() {
             addView(TextView(this@MainActivity).apply {
                 text = "Connexion impossible. Vérifiez Internet puis réessayez."
                 textSize = 17f
-                setTextColor(Color.DKGRAY)
+                setTextColor(Color.WHITE)
                 gravity = android.view.Gravity.CENTER
             })
             addView(Button(this@MainActivity).apply {
                 text = "Réessayer"
-                setOnClickListener { visibility = View.GONE; webView.reload() }
+                setOnClickListener { visibility = View.GONE; webView.loadUrl(home) }
             })
         }
 
@@ -77,7 +79,21 @@ class MainActivity : Activity() {
                 progress.visibility = if (newProgress < 100) View.VISIBLE else View.GONE
             }
         }
-        if (savedInstanceState == null) webView.loadUrl(home) else webView.restoreState(savedInstanceState)
+
+        if (savedInstanceState == null) {
+            val splash = """
+                <!doctype html><html><head><meta name="viewport" content="width=device-width, initial-scale=1">
+                <style>
+                *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:#050812}
+                body{display:flex;align-items:center;justify-content:center}
+                img{width:82%;max-width:360px;height:auto;object-fit:contain}
+                </style></head><body><img src="$logo" alt="Woldjy Impact Lab"></body></html>
+            """.trimIndent()
+            webView.loadDataWithBaseURL("https://raw.githubusercontent.com/", splash, "text/html", "UTF-8", null)
+            Handler(Looper.getMainLooper()).postDelayed({ webView.loadUrl(home) }, 1800)
+        } else {
+            webView.restoreState(savedInstanceState)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

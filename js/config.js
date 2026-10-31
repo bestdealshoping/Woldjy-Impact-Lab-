@@ -3,6 +3,6 @@
 window.WIL_CONFIG = {
   SUPABASE_URL: "https://smrajunpiymbaexvlvln.supabase.co",
   SUPABASE_ANON_KEY: "sb_publishable_Jf88V0I1OrNio2j36oBE4g_02XDt33m", // clé PUBLIQUE (publishable), protégée par RLS
-  FORMSPREE_AUDIT: "https://formspree.io/f/VOTRE_ID_AUDIT",
-  FORMSPREE_CONTACT: "https://formspree.io/f/VOTRE_ID_CONTACT"
+  FORMSPREE_AUDIT: "https://formspree.io/f/xykkzjgr",
+  FORMSPREE_CONTACT: "https://formspree.io/f/xbddlylz"
 };

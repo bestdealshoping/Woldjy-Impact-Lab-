@@ -202,3 +202,60 @@ progress{height:14px;accent-color:var(--teal)}input[readonly]{background:#f2f6f7
 .wil-admin-panel .wil-chat-shell{grid-template-columns:minmax(210px,.34fr) 1fr}
 @media(max-width:900px){.wil-admin-tabs{grid-template-columns:repeat(4,minmax(0,1fr))}.wil-admin-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:680px){.wil-admin-heading{padding:23px}.wil-admin-tabs{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.wil-admin-tab{justify-content:flex-start;min-height:48px;font-size:.74rem}.wil-admin-panel{padding:15px}.wil-admin-welcome-mark{width:70px;height:70px;border-radius:20px;font-size:1.25rem}.wil-admin-stats,.wil-admin-info-grid,.wil-admin-panel .grid{grid-template-columns:1fr}.wil-admin-stat{min-height:90px}.wil-admin-panel .wil-chat-shell{grid-template-columns:1fr}}
+
+
+/* ESPACE CLIENT PREMIUM */
+.wil-client-page{background:#f6f8fc}
+.wil-client-hero{padding:clamp(48px,7vw,86px) 0;background:radial-gradient(circle at 85% 15%,rgba(76,211,183,.24),transparent 26%),linear-gradient(118deg,#08172f,#183c68 58%,#087e7c);color:#fff}
+.wil-client-hero-inner{display:flex;align-items:center;justify-content:space-between;gap:25px}
+.wil-client-hero h1{max-width:780px;margin:14px 0;color:#fff;font-size:clamp(2.1rem,5vw,4rem)}
+.wil-client-hero p{max-width:660px;color:#d0e0ef;font-size:1rem}
+.wil-client-kicker{display:block;color:#8ee7d2;font-size:.68rem;font-weight:900;letter-spacing:.17em}
+.wil-client-kicker.dark{color:#0b817b}
+.wil-client-hero-actions{display:flex;flex-wrap:wrap;gap:11px;margin-top:25px}
+.btn-glass{border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.1);color:#fff}
+.wil-client-avatar{display:grid;place-items:center;width:142px;height:142px;flex:0 0 auto;border:1px solid rgba(255,255,255,.3);border-radius:38px;background:rgba(255,255,255,.12);color:#fff;font-size:2rem;font-weight:950;letter-spacing:-.08em;transform:rotate(5deg)}
+.wil-client-content{padding-top:55px;background:#f6f8fc}
+.wil-client-section-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:22px}
+.wil-client-section-heading h2,.wil-client-box h2{margin:7px 0;color:#122b49;font-size:clamp(1.6rem,3vw,2.2rem)}
+.wil-client-section-heading p,.wil-client-box>p{margin:0;color:#718097}
+.wil-client-section-heading.compact{margin-top:48px}
+.wil-client-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.wil-client-stat{display:grid;grid-template-columns:48px 1fr;grid-template-rows:auto auto;align-items:center;column-gap:14px;padding:20px;border:1px solid #e4eaf1;border-radius:19px;background:#fff;box-shadow:0 10px 28px rgba(13,38,68,.05)}
+.wil-client-stat-icon{grid-row:1/3;display:grid;place-items:center;width:48px;height:48px;border-radius:15px;font-size:1.3rem;font-weight:900}
+.wil-client-stat strong{font-size:1.7rem;line-height:1.1;color:#172f4e}
+.wil-client-stat>span:last-child{font-size:.8rem;color:#6b7b90;font-weight:700}
+.stat-messages .wil-client-stat-icon{background:#e3edff;color:#3268c7}.stat-notices .wil-client-stat-icon{background:#ffebf2;color:#c34c7e}.stat-books .wil-client-stat-icon{background:#e0f7ed;color:#16845e}
+.wil-client-actions-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.wil-client-action{display:grid;grid-template-columns:52px 1fr 20px;align-items:center;gap:15px;padding:20px;border:1px solid #e3e9f0;border-radius:18px;background:#fff;text-decoration:none;box-shadow:0 8px 24px rgba(13,38,68,.04);transition:transform .2s,box-shadow .2s}
+.wil-client-action:hover{transform:translateY(-3px);box-shadow:0 15px 30px rgba(13,38,68,.09)}
+.wil-client-action>span{display:grid;place-items:center;width:50px;height:50px;border-radius:15px;font-size:1.35rem;font-weight:900}
+.wil-client-action h3{margin:0 0 5px;color:#18314f;font-size:1.03rem}
+.wil-client-action p{margin:0;font-size:.82rem;line-height:1.5}
+.wil-client-action b{color:#7a8ba1}
+.wil-client-action small{display:inline-block;margin-top:5px;color:#087d76;font-weight:800}
+.action-audit>span{background:#e8efff;color:#416bd0}.action-training>span{background:#f0eaff;color:#7955c7}.action-library>span{background:#e0f7ee;color:#16865f}.action-chat>span{background:#fff0e2;color:#c47a24}
+.wil-client-lower-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:18px;margin-top:25px;align-items:start}
+.wil-client-box{min-width:0;padding:clamp(19px,3vw,27px);border:1px solid #e2e9f0;border-radius:20px;background:#fff;box-shadow:0 10px 28px rgba(13,38,68,.045)}
+.wil-client-box-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.wil-client-box-heading h2{font-size:1.45rem}
+.wil-client-box-heading .btn{min-height:38px;padding:8px 12px;font-size:.72rem}
+.wil-client-notifications{display:grid;gap:10px}
+.wil-client-notice{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:14px;border:1px solid #e8edf2;border-radius:13px;background:#fbfcfe}
+.wil-client-notice.is-unread{border-left:4px solid #0b8c82;background:#f1fbf8}
+.wil-client-notice h3{margin:0 0 5px;font-size:.9rem;color:#18314f}
+.wil-client-notice p{margin:0 0 5px;font-size:.8rem}
+.wil-client-notice time,.wil-client-submission small{font-size:.68rem;color:#8290a3}
+.wil-client-notice .btn{min-height:34px;padding:6px 10px;font-size:.68rem;white-space:nowrap}
+.wil-client-empty{padding:18px;border:1px dashed #d5dfe8;border-radius:12px;color:#7a899b;font-size:.85rem}
+.wil-client-box .form-card{padding:0;border:0;box-shadow:none;background:transparent}
+.wil-client-box .form-grid{grid-template-columns:1fr}
+.wil-client-submissions{margin-top:25px;padding-top:18px;border-top:1px solid #e8edf2}
+.wil-client-submissions h3{font-size:1rem;color:#18314f}
+.wil-client-submission{display:grid;grid-template-columns:1fr auto;gap:4px 10px;padding:12px 0;border-bottom:1px solid #edf0f4}
+.wil-client-submission strong{font-size:.84rem;color:#233c5a}
+.wil-client-submission small{grid-column:1/-1}
+.wil-submission-badge{align-self:center;padding:5px 9px;border-radius:99px;background:#fff4df;color:#966817;font-size:.68rem;font-weight:850}
+.wil-submission-badge.approved{background:#e1f7ec;color:#14794f}.wil-submission-badge.rejected{background:#ffeaeb;color:#b33b45}
+@media(max-width:850px){.wil-client-lower-grid{grid-template-columns:1fr}}
+@media(max-width:620px){.wil-client-hero-inner{align-items:flex-start}.wil-client-avatar{width:72px;height:72px;border-radius:20px;font-size:1.1rem}.wil-client-hero-actions .btn{width:100%}.wil-client-stats{grid-template-columns:1fr;gap:10px}.wil-client-stat{min-height:82px}.wil-client-actions-grid{grid-template-columns:1fr}.wil-client-section-heading{align-items:flex-start;flex-direction:column}.wil-client-section-heading>.btn{width:100%}.wil-client-box-heading{align-items:flex-start;flex-direction:column}.wil-client-notice{flex-direction:column}.wil-client-notice .btn{width:100%}}

@@ -161,24 +161,31 @@
     });
   }
   function inbox(p) {
-    p.append(h("h2",{},"Messagerie clients")); var list=h("div",{class:"grid"}), chat=h("div",{class:"card"}); p.append(list,chat);
-    db.auth.getUser().then(function(u){ var admin=u.data.user; if(!admin)return;
-      db.from("wil_conversations").select("*").order("updated_at",{ascending:false}).then(function(r){
-        if(r.error){list.textContent=r.error.message;return;} if(!r.data.length){list.textContent="Aucune conversation pour le moment.";return;}
-        r.data.forEach(function(c){var b=h("button",{type:"button",class:"btn btn-outline"},(c.subject||"Conversation")+" · "+c.status); b.onclick=function(){
-          chat.textContent=""; chat.appendChild(h("h3",{},c.subject||"Conversation"));
-          db.from("wil_messages").select("*").eq("conversation_id",c.id).order("created_at").then(function(m){
-            if(m.error){chat.appendChild(h("p",{},m.error.message));return;}
-            m.data.forEach(function(x){chat.appendChild(h("div",{class:"card"},h("p",{},x.body),h("small",{},new Date(x.created_at).toLocaleString())));});
-            db.from("wil_messages").update({is_read:true}).eq("conversation_id",c.id).neq("sender_id",admin.id);
-          });
-          var form=h("form",{}), field=h("textarea",{required:true,rows:"4"}), send=h("button",{type:"submit",class:"btn btn-primary"},"Envoyer"); form.append(field,send); chat.appendChild(form);
-          form.onsubmit=function(e){e.preventDefault(); if(!field.value.trim())return; send.disabled=true;
-            db.from("wil_messages").insert({conversation_id:c.id,sender_id:admin.id,body:field.value.trim()}).then(function(x){if(x.error)throw x.error;return db.from("wil_conversations").update({status:"answered",updated_at:new Date().toISOString()}).eq("id",c.id);})
-            .then(function(x){if(x.error)throw x.error;b.click();}).catch(function(x){alert(x.message);send.disabled=false;});
-          };
-        }; list.appendChild(b);});
-      });
+    p.append(h("h2",{},"Messagerie clients"),h("p",{},"Chaque client dispose de son propre fil de discussion. Sélectionnez une conversation pour répondre."));
+    var wrap=h("div",{class:"wil-chat-shell wil-admin-chat"}),list=h("aside",{class:"wil-chat-sidebar"}),chat=h("section",{class:"wil-chat-main"});list.append(h("div",{class:"wil-chat-top"},"Boîte de réception"));chat.append(h("div",{class:"wil-chat-thread"},h("div",{class:"wil-chat-placeholder"},"Sélectionnez une conversation pour afficher les messages.")));wrap.append(list,chat);p.append(wrap);
+    db.auth.getUser().then(function(u){var admin=u.data.user;if(!admin)return;
+      function load(){
+        db.from("wil_conversations").select("*").order("updated_at",{ascending:false}).then(function(r){
+          list.querySelectorAll(".wil-chat-item").forEach(function(x){x.remove();});
+          if(r.error){list.append(h("p",{},r.error.message));return;}
+          if(!r.data.length){list.append(h("p",{class:"wil-chat-empty"},"Aucune conversation pour le moment."));return;}
+          r.data.forEach(function(c){var b=h("button",{type:"button",class:"wil-chat-item"},h("span",{class:"wil-chat-avatar"},"W"),h("span",{class:"wil-chat-item-text"},c.subject||"Conversation"),h("small",{class:"wil-chat-state"},c.status==="answered"?"Répondu":"Ouvert"));b.onclick=function(){open(c);};list.append(b);});
+        });
+      }
+      function open(c){
+        chat.textContent="";var thread=h("div",{class:"wil-chat-thread"});thread.append(h("div",{class:"wil-chat-heading"},c.subject||"Conversation"));chat.append(thread);
+        db.from("wil_messages").select("*").eq("conversation_id",c.id).order("created_at").then(function(m){
+          if(m.error){thread.append(h("p",{},m.error.message));return;}
+          var feed=h("div",{class:"wil-chat-feed"});
+          m.data.forEach(function(x){var mine=x.sender_id===admin.id,b=h("article",{class:"wil-bubble "+(mine?"mine":"theirs")},h("div",{class:"wil-bubble-label"},mine?"Woldjy Impact Lab":"Client"),h("p",{},x.body),h("time",{},new Date(x.created_at).toLocaleString()));feed.append(b);});
+          thread.append(feed);feed.scrollTop=feed.scrollHeight;
+          db.from("wil_messages").update({is_read:true}).eq("conversation_id",c.id).neq("sender_id",admin.id);
+          var form=h("form",{class:"wil-chat-reply"}),area=h("textarea",{required:true,rows:"2",placeholder:"Écrire votre réponse..."}),send=h("button",{type:"submit",class:"btn btn-primary"},"Envoyer");form.append(area,send);thread.append(form);
+          form.onsubmit=function(e){e.preventDefault();var val=area.value.trim();if(!val)return;send.disabled=true;db.from("wil_messages").insert({conversation_id:c.id,sender_id:admin.id,body:val}).then(function(x){if(x.error)throw x.error;return db.from("wil_conversations").update({status:"answered",updated_at:new Date().toISOString()}).eq("id",c.id);}).then(function(x){if(x.error)throw x.error;open(c);load();}).catch(function(x){alert("Envoi impossible : "+x.message);send.disabled=false;});};
+        });
+      }
+      load();
+      if(db.channel)db.channel("wil-admin-inbox").on("postgres_changes",{event:"*",schema:"public",table:"wil_messages"},load).subscribe();
     });
   }
   function notificationCenter(p) {

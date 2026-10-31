@@ -150,3 +150,55 @@ progress{height:14px;accent-color:var(--teal)}input[readonly]{background:#f2f6f7
 .wil-chat-person-meta{font-size:.78rem;color:#718399;margin:-5px 0 12px;padding:0 14px}
 .wil-admin-chat .wil-chat-item{grid-template-columns:42px 1fr;min-height:66px}
 .wil-admin-chat .wil-chat-state{grid-column:2}
+
+
+/* WIL ADMIN CONTROL CENTER */
+#admin-app{padding-bottom:35px}
+.wil-admin-shell{display:grid;gap:24px}
+.wil-admin-heading{padding:28px 30px;border-radius:22px;background:linear-gradient(120deg,#101d45,#243d78 58%,#087e83);color:#fff;box-shadow:0 16px 40px rgba(20,36,82,.18)}
+.wil-admin-kicker{display:inline-block;color:#8ff0d7;font-size:.68rem;font-weight:900;letter-spacing:.16em}
+.wil-admin-heading h2{margin:9px 0;color:#fff;font-size:clamp(1.7rem,4vw,2.5rem)}
+.wil-admin-heading p{margin:0;color:#d5e5f5}
+.wil-admin-tabs{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px;padding:10px;border:1px solid #e1e7f1;border-radius:19px;background:#f4f6fb}
+.wil-admin-tab{display:flex;align-items:center;justify-content:center;gap:8px;min-height:54px;padding:10px;border:1px solid transparent;border-radius:13px;background:transparent;color:#40516c;font:700 .78rem var(--font);cursor:pointer;transition:.2s}
+.wil-admin-tab:hover{background:#fff;border-color:#dce4f0;color:#1b4e85}
+.wil-admin-tab.active{background:linear-gradient(120deg,#254b91,#147f86);color:#fff;box-shadow:0 8px 18px rgba(25,83,133,.2)}
+.wil-admin-tab-icon{font-size:1.15rem}
+.wil-admin-panel{min-width:0;padding:clamp(18px,3vw,30px);border:1px solid #e4e9f1;border-radius:22px;background:#fff;box-shadow:0 12px 35px rgba(18,36,67,.055);overflow:hidden}
+.wil-admin-panel>h2{font-size:1.7rem;color:#152b4a;margin:0 0 20px}
+.wil-admin-welcome{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:clamp(24px,4vw,38px);margin-bottom:22px;border-radius:20px;background:radial-gradient(circle at 88% 20%,rgba(255,255,255,.18),transparent 25%),linear-gradient(115deg,#182d61,#3655a0 55%,#087f83);color:#fff;overflow:hidden}
+.wil-admin-welcome h2{font-size:clamp(1.7rem,3.8vw,2.5rem);color:#fff;margin:10px 0}
+.wil-admin-welcome p{margin:0;color:#dce8ff}
+.wil-admin-welcome-mark{display:grid;place-items:center;width:105px;height:105px;flex:0 0 auto;border:1px solid rgba(255,255,255,.35);border-radius:28px;background:rgba(255,255,255,.12);color:#fff;font-size:1.7rem;font-weight:950;letter-spacing:-.08em;transform:rotate(5deg)}
+.wil-admin-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:0 0 22px}
+.wil-admin-stat{display:flex;align-items:center;gap:15px;min-height:112px;padding:20px;border:1px solid #e8edf4;border-radius:18px;background:#fff;box-shadow:0 8px 22px rgba(16,37,68,.045)}
+.wil-admin-stat-icon{display:grid;place-items:center;width:48px;height:48px;flex:0 0 auto;border-radius:15px;font-size:1.25rem;font-weight:900}
+.wil-admin-stat-copy{display:grid;gap:3px}
+.wil-admin-stat-copy strong{font-size:1.8rem;line-height:1;color:#172b49}
+.wil-admin-stat-copy span{font-size:.8rem;font-weight:750;color:#66758b}
+.wil-admin-stat-blue .wil-admin-stat-icon{background:#e4edff;color:#3266cb}
+.wil-admin-stat-orange .wil-admin-stat-icon{background:#fff0dc;color:#d27a16}
+.wil-admin-stat-green .wil-admin-stat-icon{background:#ddf8ed;color:#13865e}
+.wil-admin-stat-pink .wil-admin-stat-icon{background:#ffe6f0;color:#c34379}
+.wil-admin-stat-purple .wil-admin-stat-icon{background:#efe8ff;color:#7952c8}
+.wil-admin-stat-teal .wil-admin-stat-icon{background:#def6f5;color:#087f83}
+.wil-admin-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.wil-admin-info-card{padding:23px;border:1px solid #e7ebf2;border-radius:18px;background:#f8faff}
+.wil-admin-info-icon{display:grid;place-items:center;width:42px;height:42px;margin-bottom:15px;border-radius:13px;background:#fff;font-size:1.25rem;font-weight:900}
+.wil-admin-info-card h3{margin:0 0 8px;font-size:1.05rem;color:#1c3152}
+.wil-admin-info-card p{margin:0;font-size:.86rem}
+.wil-admin-info-blue{background:linear-gradient(140deg,#f0f5ff,#fff);border-color:#dfe8ff}
+.wil-admin-info-blue .wil-admin-info-icon{color:#3266cb}
+.wil-admin-info-purple{background:linear-gradient(140deg,#f7f1ff,#fff);border-color:#eadfff}
+.wil-admin-info-purple .wil-admin-info-icon{color:#7952c8}
+.wil-admin-error{padding:14px;border-radius:12px;background:#fff0ef;color:#a52b2b}
+.wil-admin-panel .card{border-radius:17px;box-shadow:0 8px 24px rgba(15,36,65,.06)}
+.wil-admin-panel .actions{display:flex;flex-wrap:wrap;gap:8px}
+.wil-admin-panel .btn{border-radius:11px}
+.wil-admin-panel form{display:grid;gap:13px}
+.wil-admin-panel form label{display:grid;gap:7px;margin:5px 0}
+.wil-admin-panel form input,.wil-admin-panel form textarea,.wil-admin-panel form select{border-radius:12px;background:#fbfcff}
+.wil-admin-panel .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.wil-admin-panel .wil-chat-shell{grid-template-columns:minmax(210px,.34fr) 1fr}
+@media(max-width:900px){.wil-admin-tabs{grid-template-columns:repeat(4,minmax(0,1fr))}.wil-admin-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:680px){.wil-admin-heading{padding:23px}.wil-admin-tabs{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.wil-admin-tab{justify-content:flex-start;min-height:48px;font-size:.74rem}.wil-admin-panel{padding:15px}.wil-admin-welcome-mark{width:70px;height:70px;border-radius:20px;font-size:1.25rem}.wil-admin-stats,.wil-admin-info-grid,.wil-admin-panel .grid{grid-template-columns:1fr}.wil-admin-stat{min-height:90px}.wil-admin-panel .wil-chat-shell{grid-template-columns:1fr}}

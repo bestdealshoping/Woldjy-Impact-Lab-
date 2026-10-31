@@ -2,7 +2,7 @@
 (function () {
   var cfg = window.WIL_CONFIG || {};
   var ready = cfg.SUPABASE_URL && cfg.SUPABASE_ANON_KEY && window.supabase;
-  var db = ready ? window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY) : null;
+  var db = ready ? window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } }) : null;
   window.wilDb = db;
 
   function say(form, msg, ok) {

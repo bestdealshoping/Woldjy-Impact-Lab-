@@ -64,3 +64,54 @@ progress{height:14px;accent-color:var(--teal)}input[readonly]{background:#f2f6f7
 
 /* Official Woldjy Impact Lab logo */
 .brand-logo{width:52px;height:52px;object-fit:contain;border-radius:10px;flex:0 0 auto}.footer-logo{width:min(220px,100%);height:auto;object-fit:contain;display:block;margin-bottom:14px}.footer-brand{min-width:0}
+
+
+/* Digital Library experience */
+#library-app{padding-bottom:3rem}
+.library-welcome{position:relative;overflow:hidden;padding:clamp(32px,6vw,70px);border-radius:28px;background:radial-gradient(circle at 85% 10%,rgba(62,190,164,.28),transparent 32%),linear-gradient(125deg,#07152d,#102d4b 58%,#126b68);color:#fff;box-shadow:0 24px 65px rgba(7,21,45,.2)}
+.library-welcome:after{content:"";position:absolute;width:290px;height:290px;border:1px solid rgba(255,255,255,.13);border-radius:50%;right:-70px;bottom:-160px;box-shadow:0 0 0 28px rgba(255,255,255,.035),0 0 0 58px rgba(255,255,255,.025)}
+.library-kicker{display:block;color:#8ee4cf;font-size:.7rem;font-weight:900;letter-spacing:.19em;text-transform:uppercase}
+.library-welcome-title{max-width:720px;margin:18px 0;color:#fff;font-size:clamp(2rem,5vw,3.7rem)}
+.library-welcome-text{max-width:620px;color:#c4d6e2;font-size:1rem}
+.library-head-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:25px;position:relative;z-index:2}
+.library-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin:22px 0 55px}
+.library-stat{display:flex;align-items:center;gap:14px;padding:18px 20px;border:1px solid #e2e9ed;border-radius:17px;background:linear-gradient(140deg,#fff,#f3f9f8);box-shadow:0 10px 28px rgba(7,21,45,.045)}
+.library-stat strong{display:grid;place-items:center;width:43px;height:43px;border-radius:13px;background:#dff5ed;color:#08766e;font-size:1.1rem}
+.library-stat span{font-size:.83rem;font-weight:750;color:#31445b}
+.library-section-title{margin-bottom:22px}
+.library-section-title h2{margin:10px 0;color:#10213a}
+.library-section-title p{margin:0}
+.library-toolbar{margin:22px 0 15px}
+.library-search{max-width:560px;min-height:54px;padding:14px 20px;border-radius:999px;border:1px solid #d7e1e6;background:#f8fbfc;box-shadow:0 8px 25px rgba(7,21,45,.04)}
+.library-categories{display:flex;flex-wrap:wrap;gap:9px;margin:15px 0 28px}
+.library-filter{padding:9px 17px;border:1px solid #d9e3e8;border-radius:999px;background:#fff;color:#40536a;font:inherit;font-size:.8rem;font-weight:750}
+.library-filter.active,.library-filter:hover{background:#0b7775;color:#fff;border-color:#0b7775}
+.library-shelves{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.book-card{overflow:hidden;border:1px solid #e0e7eb;border-radius:20px;background:#fff;box-shadow:0 12px 35px rgba(7,21,45,.07);transition:transform .22s,box-shadow .22s}
+.book-card:hover{transform:translateY(-6px);box-shadow:0 22px 45px rgba(7,21,45,.13)}
+.book-cover{height:245px;display:grid;place-items:center;overflow:hidden;background:linear-gradient(145deg,#09213e,#126d69 68%,#b9edda)}
+.book-cover img{width:100%;height:100%;object-fit:cover}
+.book-placeholder{width:145px;height:190px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;border:1px solid rgba(255,255,255,.6);border-radius:5px 12px 12px 5px;background:linear-gradient(145deg,#f8e9c8,#d4a95d 55%,#81532d);box-shadow:12px 15px 25px rgba(0,0,0,.25);color:#392717}
+.book-placeholder-mark{font-family:Georgia,serif;font-size:4rem;font-weight:bold}
+.book-placeholder-label{font-size:.55rem;letter-spacing:.18em;font-weight:900}
+.book-info{padding:22px}
+.book-category{display:inline-block;padding:5px 10px;border-radius:99px;background:#e4f6ef;color:#08766e;font-size:.67rem;font-weight:850;text-transform:uppercase;letter-spacing:.08em}
+.book-info h3{margin:13px 0 7px;color:#10213a}
+.book-author{margin:0 0 10px;color:#0b7775;font-size:.8rem;font-weight:750}
+.book-description{min-height:68px;font-size:.84rem;line-height:1.6}
+.book-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:17px}
+.book-actions .btn{min-height:42px;padding:9px 14px;font-size:.78rem}
+.library-empty{grid-column:1/-1;padding:35px;border:1px dashed #b8c9d0;border-radius:18px;background:#f7fafb;color:#627287;text-align:center}
+.author-banner{position:relative;overflow:hidden;margin-top:70px;padding:clamp(28px,5vw,52px);border-radius:25px;background:radial-gradient(circle at 90% 20%,rgba(141,228,207,.23),transparent 30%),linear-gradient(120deg,#0b1d36,#0c625f);color:#fff}
+.author-banner>div{max-width:740px;position:relative;z-index:1}
+.author-banner h2{margin:12px 0;color:#fff;font-size:clamp(1.8rem,4vw,2.8rem)}
+.author-banner p{max-width:650px;color:#c4d6e2}
+.author-form-section,.author-submissions{margin-top:35px;padding:clamp(22px,4vw,38px);border:1px solid #e1e8ed;border-radius:22px;background:#f8fbfc}
+.author-form-section h2,.author-submissions h2{margin-bottom:10px;color:#10213a}
+.author-form-section>p{margin-bottom:22px}
+.author-form-section .form-card{box-shadow:none}
+.submission-list{display:grid;gap:12px}
+.submission-item{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:16px 18px;border:1px solid #e0e7eb;border-radius:13px;background:#fff}
+.submission-status{padding:6px 11px;border-radius:99px;background:#fff2d8;color:#88621d;font-size:.72rem;font-weight:800}
+@media(max-width:850px){.library-shelves{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.library-welcome{border-radius:20px;padding:29px 23px}.library-stats{gap:8px;margin-bottom:40px}.library-stat{padding:12px 9px;gap:7px;flex-direction:column;align-items:flex-start}.library-stat strong{width:35px;height:35px}.library-stat span{font-size:.7rem}.library-shelves{grid-template-columns:1fr}.book-cover{height:260px}.book-info{padding:19px}.book-description{min-height:0}.book-actions .btn{flex:1}.submission-item{align-items:flex-start;flex-direction:column}}

@@ -149,20 +149,75 @@
 
   // ---------- Membres ----------
   function members(p) {
-    var list = h("div", { class: "grid" });
-    p.append(h("h2", {}, "Membres"), h("p", {}, "Tous les membres ayant confirmé leur compte peuvent accéder à la bibliothèque. Les partages sont suivis séparément et ne conditionnent plus l'accès."), list);
+    var membersData = [], search = h("input", { type: "search", placeholder: "Rechercher par nom ou adresse e-mail…", "aria-label": "Rechercher un membre" });
+    var roleFilter = h("select", { "aria-label": "Filtrer par rôle" },
+      h("option", { value: "all" }, "Tous les rôles"),
+      h("option", { value: "client" }, "Clients"),
+      h("option", { value: "admin" }, "Administrateurs"));
+    var accessFilter = h("select", { "aria-label": "Filtrer par accès" },
+      h("option", { value: "all" }, "Tous les accès"),
+      h("option", { value: "active" }, "Accès actif"),
+      h("option", { value: "restricted" }, "Accès personnalisé"));
+    var summary = h("p", { class: "wil-members-summary" }, "Chargement des membres…");
+    var controls = h("div", { class: "wil-members-controls" }, search, roleFilter, accessFilter);
+    var list = h("div", { class: "grid wil-members-grid" });
+    var refresh = h("button", { type: "button", class: "btn btn-outline", on: { click: load } }, "Actualiser");
+    p.append(h("h2", {}, "Gestion des membres"), h("p", {}, "Recherchez un compte, filtrez les profils et consultez les détails de chaque membre. Les changements de privilèges restent protégés."), controls, summary, refresh, list);
+    search.addEventListener("input", render);
+    roleFilter.addEventListener("change", render);
+    accessFilter.addEventListener("change", render);
+
+    function render() {
+      var term = search.value.trim().toLocaleLowerCase();
+      var role = roleFilter.value, access = accessFilter.value;
+      var rows = membersData.filter(function (m) {
+        var text = ((m.full_name || "") + " " + (m.email || "")).toLocaleLowerCase();
+        var accessType = m.access_override ? "restricted" : "active";
+        return (!term || text.indexOf(term) !== -1) &&
+          (role === "all" || m.role === role) &&
+          (access === "all" || accessType === access);
+      });
+      summary.textContent = rows.length + " membre(s) affiché(s) sur " + membersData.length + " compte(s).";
+      list.textContent = "";
+      if (!rows.length) { list.append(h("div", { class: "card" }, "Aucun membre ne correspond à votre recherche.")); return; }
+      rows.forEach(function (m) {
+        var accessText = m.access_override ? "Accès personnalisé" : "Accès actif";
+        var card = h("article", { class: "card wil-member-card" });
+        var top = h("div", { class: "wil-member-card-top" },
+          h("span", { class: "tag" }, m.role === "admin" ? "Administrateur" : "Client"),
+          h("span", { class: "wil-member-access" }, accessText));
+        var name = h("h3", {}, m.full_name || "Nom non renseigné");
+        var email = h("p", { class: "wil-member-email" }, m.email || "E-mail non disponible");
+        var detail = h("div", { class: "wil-member-details", hidden: true });
+        detail.append(
+          h("p", {}, h("strong", {}, "Identifiant : "), m.id || "Non disponible"),
+          h("p", {}, h("strong", {}, "Date d’inscription : "), m.created_at ? new Date(m.created_at).toLocaleDateString() : "Non disponible"),
+          h("p", {}, h("strong", {}, "Inscriptions référées : "), String(m.referrals || 0)),
+          h("p", {}, h("strong", {}, "Rôle : "), m.role === "admin" ? "Administrateur" : "Client"),
+          h("p", {}, h("strong", {}, "Accès : "), accessText)
+        );
+        var toggle = h("button", { type: "button", class: "btn btn-outline", "aria-expanded": "false" }, "Voir les détails");
+        toggle.onclick = function () {
+          var show = detail.hidden;
+          detail.hidden = !show;
+          toggle.textContent = show ? "Masquer les détails" : "Voir les détails";
+          toggle.setAttribute("aria-expanded", show ? "true" : "false");
+        };
+        card.append(top, name, email, toggle, detail);
+        list.appendChild(card);
+      });
+    }
     function load() {
+      refresh.disabled = true;
+      summary.textContent = "Chargement des membres…";
       db.rpc("admin_members").then(function (r) {
-        list.textContent = "";
-        if (r.error) { list.textContent = "Erreur de chargement."; return; }
-        if (!r.data.length) list.textContent = "Aucun membre pour le moment.";
-        r.data.forEach(function (m) {
-          list.appendChild(h("div", { class: "card" },
-            h("span", { class: "tag" }, m.role === "admin" ? "Administrateur" : "Accès actif"),
-            h("h3", {}, m.full_name || "(sans nom)"),
-            h("p", {}, (m.email || "") + " · Inscriptions référées : " + (m.referrals || 0))
-          ));
-        });
+        refresh.disabled = false;
+        if (r.error) { summary.textContent = "Impossible de charger les membres : " + r.error.message; list.textContent = ""; return; }
+        membersData = Array.isArray(r.data) ? r.data : [];
+        render();
+      }).catch(function (e) {
+        refresh.disabled = false;
+        summary.textContent = "Erreur : " + e.message;
       });
     }
     load();

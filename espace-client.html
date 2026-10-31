@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mon espace | Woldjy Impact Lab</title><meta name="robots" content="noindex,nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self'; img-src 'self' data:; connect-src 'self' https://*.supabase.co; base-uri 'self'">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body><div id="site-header"></div>
+<main id="contenu">
+<section class="page-hero"><div class="container"><span class="eyebrow eyebrow-dark">ESPACE PERSONNEL</span><h1 id="welcome">Mon espace client</h1><p>Retrouvez vos demandes, vos messages et les informations de Woldjy Impact Lab.</p><button id="logout" class="btn btn-outline" type="button">Se déconnecter</button></div></section>
+<section class="section"><div class="container">
+<div class="service-grid">
+<a class="service-card" href="audit.html"><div class="service-content"><h3>Demander un audit</h3><p>Présentez votre projet et demandez une analyse.</p></div></a>
+<a class="service-card" href="offers.html"><div class="service-content"><h3>Formations</h3><p>Consultez les formations et envoyez une demande de réservation.</p></div></a>
+<a class="service-card" href="acceuil_bibliotheque.html"><div class="service-content"><h3>Bibliothèque</h3><p>Consultez les livres et documents disponibles.</p></div></a>
+<a class="service-card" href="contact.html"><div class="service-content"><h3>Messagerie</h3><p>Écrivez à l'équipe et suivez les réponses.</p><span id="unread-messages"></span></div></a>
+<a class="service-card" href="#notifications"><div class="service-content"><h3>Notifications</h3><p>Consultez les nouvelles informations de votre compte.</p><span id="unread-notifications"></span></div></a>
+<a class="service-card" href="#publication"><div class="service-content"><h3>Proposer une publication</h3><p>Soumettez un document à l'équipe éditoriale.</p></div></a>
+</div>
+<div class="section-heading" id="notifications"><h2>Mes notifications</h2><p>Les messages et mises à jour qui vous concernent.</p></div>
+<div id="notification-list" class="grid"><p>Chargement...</p></div>
+<div class="section-heading" id="publication"><h2>Proposer un document</h2><p>Envoyez un document pour examen par l'équipe Woldjy Impact Lab.</p></div>
+<form id="publication-form" class="form-card"><div class="form-grid">
+<div class="field full"><label for="doc-title">Titre du document</label><input id="doc-title" name="title" required maxlength="160"></div>
+<div class="field full"><label for="doc-description">Description</label><textarea id="doc-description" name="description" rows="3"></textarea></div>
+<div class="field"><label for="doc-category">Catégorie</label><input id="doc-category" name="category" placeholder="Article, guide, étude..."></div>
+<div class="field"><label for="doc-file">Fichier (PDF, DOCX)</label><input id="doc-file" type="file" accept=".pdf,.doc,.docx" required></div>
+<div class="field full"><button class="btn btn-primary" type="submit">Soumettre à l'équipe</button><div id="publication-status" class="form-status" role="status"></div></div>
+</div></form>
+</div></section></main><div id="site-footer"></div>
+<script src="js/config.js"></script><script src="js/layout.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.75.1/dist/umd/supabase.min.js"></script><script src="js/auth.js"></script><script src="js/client-dashboard.js"></script>
+</body></html>

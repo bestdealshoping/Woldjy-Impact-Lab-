@@ -12,11 +12,24 @@
   });
 
   function start() {
-    var tabs = h("div", { class: "actions" }), panel = h("div", {});
-    [["Tableau de bord", dashboard], ["Messagerie", inbox], ["Notifications", notificationCenter], ["Contenu du site", contentManager], ["Livres", books], ["Formations", formations], ["Membres", members]].forEach(function (d) {
-      tabs.appendChild(h("button", { type: "button", class: "btn btn-outline", on: { click: function () { panel.textContent = ""; d[1](panel); } } }, d[0]));
+    var shell = h("div", { class: "wil-admin-shell" });
+    var heading = h("div", { class: "wil-admin-heading" },
+      h("span", { class: "wil-admin-kicker" }, "WOLDJY IMPACT LAB · CONTROL CENTER"),
+      h("h2", {}, "Centre de pilotage"),
+      h("p", {}, "Gérez votre plateforme, vos clients et vos ressources depuis un seul espace.")
+    );
+    var tabs = h("nav", { class: "wil-admin-tabs", "aria-label": "Navigation administration" });
+    var panel = h("section", { class: "wil-admin-panel" });
+    var sections = [["⌂", "Tableau de bord", dashboard], ["✉", "Messagerie", inbox], ["◉", "Notifications", notificationCenter], ["✎", "Contenu du site", contentManager], ["▣", "Livres", books], ["▤", "Formations", formations], ["♙", "Membres", members]];
+    sections.forEach(function (d, i) {
+      var b = h("button", { type: "button", class: "wil-admin-tab" + (i === 0 ? " active" : ""), on: { click: function () {
+        tabs.querySelectorAll(".wil-admin-tab").forEach(function (x) { x.classList.remove("active"); });
+        b.classList.add("active"); panel.textContent = ""; d[2](panel);
+      } } }, h("span", { class: "wil-admin-tab-icon" }, d[0]), h("span", {}, d[1]));
+      tabs.appendChild(b);
     });
-    root.textContent = ""; root.append(tabs, panel); dashboard(panel);
+    shell.append(heading, tabs, panel);
+    root.textContent = ""; root.appendChild(shell); dashboard(panel);
   }
   function actions(list) {
     var a = h("div", { class: "actions" });
@@ -155,9 +168,61 @@
     load();
   }
   function dashboard(p) {
-    p.append(h("h2",{},"Tableau de bord")); var grid=h("div",{class:"grid"}); p.appendChild(grid);
-    Promise.all([db.from("wil_conversations").select("id",{count:"exact",head:true}),db.from("wil_messages").select("id",{count:"exact",head:true}).eq("is_read",false),db.from("profiles").select("id",{count:"exact",head:true}),db.from("wil_notifications").select("id",{count:"exact",head:true})]).then(function(r){
-      [["Conversations",r[0]],["Messages non lus",r[1]],["Comptes clients",r[2]],["Notifications",r[3]]].forEach(function(x){grid.appendChild(h("div",{class:"card"},h("h3",{},x[1].error?"Erreur":String(x[1].count||0)),h("p",{},x[0])));});
+    var intro = h("div", { class: "wil-admin-welcome" },
+      h("div", {},
+        h("span", { class: "wil-admin-kicker" }, "VOTRE ACTIVITÉ EN UN COUP D’ŒIL"),
+        h("h2", {}, "Bonjour, administrateur."),
+        h("p", {}, "Voici les indicateurs principaux de votre espace Woldjy Impact Lab.")
+      ),
+      h("div", { class: "wil-admin-welcome-mark" }, "WIL")
+    );
+    var grid = h("div", { class: "wil-admin-stats" });
+    var recent = h("div", { class: "wil-admin-info-grid" });
+    var info = h("article", { class: "wil-admin-info-card wil-admin-info-blue" },
+      h("span", { class: "wil-admin-info-icon" }, "↗"),
+      h("h3", {}, "Développez votre communauté"),
+      h("p", {}, "Suivez les comptes, répondez aux demandes et accompagnez vos membres.")
+    );
+    var resources = h("article", { class: "wil-admin-info-card wil-admin-info-purple" },
+      h("span", { class: "wil-admin-info-icon" }, "✦"),
+      h("h3", {}, "Gardez vos ressources à jour"),
+      h("p", {}, "Publiez des livres et des formations pour enrichir votre bibliothèque.")
+    );
+    recent.append(info, resources);
+    p.append(intro, grid, recent);
+    db.auth.getUser().then(function (u) {
+      var adminId = u.data && u.data.user ? u.data.user.id : "";
+      var unreadQuery = db.from("wil_messages").select("id", { count: "exact", head: true }).eq("is_read", false);
+      if (adminId) unreadQuery = unreadQuery.neq("sender_id", adminId);
+      return Promise.all([
+        db.from("wil_conversations").select("id", { count: "exact", head: true }),
+        unreadQuery,
+        db.from("profiles").select("id", { count: "exact", head: true }),
+        db.from("wil_notifications").select("id", { count: "exact", head: true }),
+        db.from("documents").select("id", { count: "exact", head: true }),
+        db.from("formations").select("id", { count: "exact", head: true })
+      ]);
+    }).then(function (r) {
+      var stats = [
+        ["✉", "Conversations", r[0], "blue"],
+        ["●", "Messages à lire", r[1], "orange"],
+        ["♙", "Comptes enregistrés", r[2], "green"],
+        ["♧", "Notifications", r[3], "pink"],
+        ["▣", "Livres", r[4], "purple"],
+        ["▤", "Formations", r[5], "teal"]
+      ];
+      stats.forEach(function (x) {
+        var card = h("article", { class: "wil-admin-stat wil-admin-stat-" + x[3] },
+          h("span", { class: "wil-admin-stat-icon" }, x[0]),
+          h("div", { class: "wil-admin-stat-copy" },
+            h("strong", {}, x[2].error ? "—" : String(x[2].count || 0)),
+            h("span", {}, x[1])
+          )
+        );
+        grid.appendChild(card);
+      });
+    }).catch(function () {
+      grid.appendChild(h("p", { class: "wil-admin-error" }, "Les statistiques ne sont pas disponibles pour le moment."));
     });
   }
   function inbox(p) {

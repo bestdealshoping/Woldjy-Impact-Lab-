@@ -13,10 +13,10 @@
 
   function start() {
     var tabs = h("div", { class: "actions" }), panel = h("div", {});
-    [["Livres", books], ["Formations", formations], ["Membres", members]].forEach(function (d) {
+    [["Tableau de bord", dashboard], ["Messagerie", inbox], ["Notifications", notificationCenter], ["Contenu du site", contentManager], ["Livres", books], ["Formations", formations], ["Membres", members]].forEach(function (d) {
       tabs.appendChild(h("button", { type: "button", class: "btn btn-outline", on: { click: function () { panel.textContent = ""; d[1](panel); } } }, d[0]));
     });
-    root.textContent = ""; root.append(tabs, panel); books(panel);
+    root.textContent = ""; root.append(tabs, panel); dashboard(panel);
   }
   function actions(list) {
     var a = h("div", { class: "actions" });
@@ -141,5 +141,45 @@
       });
     }
     load();
+  }
+  function dashboard(p) {
+    p.append(h("h2",{},"Tableau de bord")); var grid=h("div",{class:"grid"}); p.appendChild(grid);
+    Promise.all([db.from("wil_conversations").select("id",{count:"exact",head:true}),db.from("wil_messages").select("id",{count:"exact",head:true}).eq("is_read",false),db.from("profiles").select("id",{count:"exact",head:true}),db.from("wil_notifications").select("id",{count:"exact",head:true})]).then(function(r){
+      [["Conversations",r[0]],["Messages non lus",r[1]],["Comptes clients",r[2]],["Notifications",r[3]]].forEach(function(x){grid.appendChild(h("div",{class:"card"},h("h3",{},x[1].error?"Erreur":String(x[1].count||0)),h("p",{},x[0])));});
+    });
+  }
+  function inbox(p) {
+    p.append(h("h2",{},"Messagerie clients")); var list=h("div",{class:"grid"}), chat=h("div",{class:"card"}); p.append(list,chat);
+    db.auth.getUser().then(function(u){ var admin=u.data.user; if(!admin)return;
+      db.from("wil_conversations").select("*").order("updated_at",{ascending:false}).then(function(r){
+        if(r.error){list.textContent=r.error.message;return;} if(!r.data.length){list.textContent="Aucune conversation pour le moment.";return;}
+        r.data.forEach(function(c){var b=h("button",{type:"button",class:"btn btn-outline"},(c.subject||"Conversation")+" · "+c.status); b.onclick=function(){
+          chat.textContent=""; chat.appendChild(h("h3",{},c.subject||"Conversation"));
+          db.from("wil_messages").select("*").eq("conversation_id",c.id).order("created_at").then(function(m){
+            if(m.error){chat.appendChild(h("p",{},m.error.message));return;}
+            m.data.forEach(function(x){chat.appendChild(h("div",{class:"card"},h("p",{},x.body),h("small",{},new Date(x.created_at).toLocaleString())));});
+            db.from("wil_messages").update({is_read:true}).eq("conversation_id",c.id).neq("sender_id",admin.id);
+          });
+          var form=h("form",{}), field=h("textarea",{required:true,rows:"4"}), send=h("button",{type:"submit",class:"btn btn-primary"},"Envoyer"); form.append(field,send); chat.appendChild(form);
+          form.onsubmit=function(e){e.preventDefault(); if(!field.value.trim())return; send.disabled=true;
+            db.from("wil_messages").insert({conversation_id:c.id,sender_id:admin.id,body:field.value.trim()}).then(function(x){if(x.error)throw x.error;return db.from("wil_conversations").update({status:"answered",updated_at:new Date().toISOString()}).eq("id",c.id);})
+            .then(function(x){if(x.error)throw x.error;return db.from("wil_notifications").insert({user_id:c.user_id,title:"Nouvelle réponse de Woldjy Impact Lab",body:"Vous avez reçu une réponse.",kind:"message"});})
+            .then(function(x){if(x.error)throw x.error;b.click();}).catch(function(x){alert(x.message);send.disabled=false;});
+          };
+        }; list.appendChild(b);});
+      });
+    });
+  }
+  function notificationCenter(p) {
+    p.append(h("h2",{},"Notifications")); var list=h("div",{class:"grid"}); p.appendChild(list);
+    db.from("wil_notifications").select("*").order("created_at",{ascending:false}).limit(100).then(function(r){if(r.error){list.textContent=r.error.message;return;} if(!r.data.length){list.textContent="Aucune notification.";return;} r.data.forEach(function(n){list.appendChild(h("div",{class:"card"},h("strong",{},n.title),h("p",{},n.body||""),h("small",{},new Date(n.created_at).toLocaleString())));});});
+  }
+  function contentManager(p) {
+    p.append(h("h2",{},"Contenu du site"),h("p",{},"Gérez les textes et images enregistrés dans la base."));
+    var form=h("form",{}), list=h("div",{class:"grid"});
+    [["Clé unique","content_key"],["Titre","title"],["Texte","body"],["URL image","image_url"]].forEach(function(x){var label=h("label",{},x[0]);var input=x[1]==="body"?h("textarea",{name:x[1],rows:"3"}):h("input",{name:x[1],type:"text"});label.appendChild(input);form.appendChild(label);});
+    var pub=h("input",{type:"checkbox",checked:true}); form.append(pub,document.createTextNode(" Publier "),h("button",{type:"submit",class:"btn btn-primary"},"Enregistrer")); p.append(form,list);
+    form.onsubmit=function(e){e.preventDefault();var row={content_key:form.elements.content_key.value.trim(),title:form.elements.title.value,body:form.elements.body.value,image_url:form.elements.image_url.value||null,is_published:pub.checked,updated_at:new Date().toISOString()};if(!row.content_key)return;db.from("wil_site_content").upsert(row,{onConflict:"content_key"}).then(function(r){if(r.error){alert(r.error.message);return;}form.reset();pub.checked=true;load();});};
+    function load(){list.textContent="";db.from("wil_site_content").select("*").order("updated_at",{ascending:false}).then(function(r){if(r.error){list.textContent=r.error.message;return;}r.data.forEach(function(x){var card=h("div",{class:"card"},h("strong",{},x.content_key+" · "+(x.title||"")),h("p",{},x.body||""));var b=h("button",{type:"button",class:"btn btn-outline"},"Modifier");b.onclick=function(){form.elements.content_key.value=x.content_key;form.elements.title.value=x.title||"";form.elements.body.value=x.body||"";form.elements.image_url.value=x.image_url||"";pub.checked=x.is_published;};card.appendChild(b);list.appendChild(card);});});} load();
   }
 })();

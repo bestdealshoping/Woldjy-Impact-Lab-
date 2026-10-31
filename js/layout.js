@@ -3,7 +3,7 @@
   var pages=[
     ["index.html","Accueil"],["services.html","Services"],["offers.html","Formations"],
     ["process.html","Notre méthode"],["audit.html","Audit"],["contact.html","Contact"],
-    ["acceuil_bibliotheque.html","Bibliothèque"]
+    ["acceuil_bibliotheque.html","Bibliothèque"],["login.html","Connexion"],["register.html","Créer un compte"],["espace-client.html","Mon espace"]
   ];
   var current=location.pathname.split("/").pop()||"index.html";
   if(["bibliotheque.html","login.html","register.html"].includes(current)) current="acceuil_bibliotheque.html";

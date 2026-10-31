@@ -3,31 +3,43 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Mon espace | Woldjy Impact Lab</title><meta name="robots" content="noindex,nofollow">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self'; img-src 'self' data:; connect-src 'self' https://*.supabase.co; base-uri 'self'">
+<meta name="theme-color" content="#07152d">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self'; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://*.supabase.co; base-uri 'self'">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body><div id="site-header"></div>
-<main id="contenu">
-<section class="page-hero"><div class="container"><span class="eyebrow eyebrow-dark">ESPACE PERSONNEL</span><h1 id="welcome">Mon espace client</h1><p>Retrouvez vos demandes, vos messages et les informations de Woldjy Impact Lab.</p><button id="logout" class="btn btn-outline" type="button">Se déconnecter</button></div></section>
-<section class="section"><div class="container">
-<div class="service-grid">
-<a class="service-card" href="audit.html"><div class="service-content"><h3>Demander un audit</h3><p>Présentez votre projet et demandez une analyse.</p></div></a>
-<a class="service-card" href="offers.html"><div class="service-content"><h3>Formations</h3><p>Consultez les formations et envoyez une demande de réservation.</p></div></a>
-<a class="service-card" href="bibliotheque.html"><div class="service-content"><h3>Bibliothèque</h3><p>Consultez les livres et documents disponibles.</p></div></a>
-<a class="service-card" href="messages.html"><div class="service-content"><h3>Messagerie</h3><p>Écrivez à l'équipe et suivez les réponses.</p><span id="unread-messages"></span></div></a>
-<a class="service-card" href="#notifications"><div class="service-content"><h3>Notifications</h3><p>Consultez les nouvelles informations de votre compte.</p><span id="unread-notifications"></span></div></a>
-<a class="service-card" href="#publication"><div class="service-content"><h3>Proposer une publication</h3><p>Soumettez un document à l'équipe éditoriale.</p></div></a>
+<main id="contenu" class="wil-client-page">
+<section class="wil-client-hero"><div class="container wil-client-hero-inner">
+<div><span class="wil-client-kicker">WOLDJY IMPACT LAB · ESPACE PRIVÉ</span><h1 id="welcome">Mon espace client</h1><p>Votre tableau de bord personnel pour suivre vos échanges, vos ressources et vos publications.</p><div class="wil-client-hero-actions"><a class="btn btn-light" href="messages.html">Ouvrir ma messagerie</a><a class="btn btn-glass" href="bibliotheque.html">Explorer la bibliothèque</a></div></div>
+<div class="wil-client-avatar" aria-hidden="true">WIL</div>
+</div></section>
+<section class="section wil-client-content"><div class="container">
+<div class="wil-client-section-heading"><div><span class="wil-client-kicker dark">VOTRE ACTIVITÉ</span><h2>Vue d’ensemble</h2><p>Retrouvez rapidement les informations importantes de votre compte.</p></div><button id="logout" class="btn btn-outline" type="button">Se déconnecter</button></div>
+<div class="wil-client-stats">
+<article class="wil-client-stat stat-messages"><span class="wil-client-stat-icon">✉</span><strong id="client-message-count">0</strong><span>Messages non lus</span></article>
+<article class="wil-client-stat stat-notices"><span class="wil-client-stat-icon">◉</span><strong id="client-notification-count">0</strong><span>Notifications non lues</span></article>
+<article class="wil-client-stat stat-books"><span class="wil-client-stat-icon">▣</span><strong id="client-publication-count">0</strong><span>Propositions envoyées</span></article>
 </div>
-<div class="section-heading" id="notifications"><h2>Mes notifications</h2><p>Les messages et mises à jour qui vous concernent.</p></div>
-<div id="notification-list" class="grid"><p>Chargement...</p></div>
-<div class="section-heading" id="publication"><h2>Proposer un document</h2><p>Envoyez un document pour examen par l'équipe Woldjy Impact Lab.</p></div>
+<div class="wil-client-section-heading compact"><div><span class="wil-client-kicker dark">ACCÈS RAPIDE</span><h2>Vos espaces</h2></div></div>
+<div class="wil-client-actions-grid">
+<a class="wil-client-action action-audit" href="audit.html"><span>⌕</span><div><h3>Demander un audit</h3><p>Présentez votre projet et demandez une analyse.</p></div><b>↗</b></a>
+<a class="wil-client-action action-training" href="offers.html"><span>▤</span><div><h3>Formations</h3><p>Découvrez les offres et envoyez une demande.</p></div><b>↗</b></a>
+<a class="wil-client-action action-library" href="bibliotheque.html"><span>▣</span><div><h3>Bibliothèque</h3><p>Consultez les livres et documents disponibles.</p></div><b>↗</b></a>
+<a class="wil-client-action action-chat" href="messages.html"><span>✉</span><div><h3>Messagerie privée</h3><p>Échangez directement avec notre équipe.</p><small id="unread-messages">Aucun message non lu</small></div><b>↗</b></a>
+</div>
+<div class="wil-client-lower-grid">
+<section class="wil-client-box" id="notifications"><div class="wil-client-box-heading"><div><span class="wil-client-kicker dark">MISES À JOUR</span><h2>Mes notifications</h2></div><button id="mark-all-read" class="btn btn-outline" type="button">Tout marquer comme lu</button></div><div id="notification-list" class="wil-client-notifications"><p>Chargement...</p></div></section>
+<section class="wil-client-box" id="publication"><div class="wil-client-box-heading"><div><span class="wil-client-kicker dark">ESPACE CONTRIBUTEUR</span><h2>Proposer un document</h2></div></div><p>Envoyez un document à notre équipe. Vous pourrez suivre son examen depuis votre espace.</p>
 <form id="publication-form" class="form-card"><div class="form-grid">
 <div class="field full"><label for="doc-title">Titre du document</label><input id="doc-title" name="title" required maxlength="160"></div>
-<div class="field full"><label for="doc-description">Description</label><textarea id="doc-description" name="description" rows="3"></textarea></div>
-<div class="field"><label for="doc-category">Catégorie</label><input id="doc-category" name="category" placeholder="Article, guide, étude..."></div>
-<div class="field"><label for="doc-file">Fichier (PDF, DOCX)</label><input id="doc-file" type="file" accept=".pdf,.doc,.docx" required></div>
-<div class="field full"><button class="btn btn-primary" type="submit">Soumettre à l'équipe</button><div id="publication-status" class="form-status" role="status"></div></div>
+<div class="field full"><label for="doc-description">Description</label><textarea id="doc-description" name="description" rows="3" maxlength="2000"></textarea></div>
+<div class="field"><label for="doc-category">Catégorie</label><input id="doc-category" name="category" placeholder="Article, guide, étude..." maxlength="100"></div>
+<div class="field"><label for="doc-file">Fichier (PDF, DOCX, DOC, EPUB, 20 Mo max.)</label><input id="doc-file" type="file" accept=".pdf,.doc,.docx,.epub" required></div>
+<div class="field full"><button class="btn btn-primary" type="submit">Soumettre à l'équipe</button><div id="publication-status" class="form-status" role="status" aria-live="polite"></div></div>
 </div></form>
+<div class="wil-client-submissions"><h3>Mes propositions récentes</h3><div id="client-submissions-list"><p>Chargement...</p></div></div>
+</section>
+</div>
 </div></section></main><div id="site-footer"></div>
 <script src="js/config.js"></script><script src="js/layout.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.75.1/dist/umd/supabase.min.js"></script><script src="js/auth.js"></script><script src="js/client-dashboard.js"></script>
 </body></html>

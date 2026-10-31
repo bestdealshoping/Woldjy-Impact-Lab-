@@ -175,7 +175,6 @@
           var form=h("form",{}), field=h("textarea",{required:true,rows:"4"}), send=h("button",{type:"submit",class:"btn btn-primary"},"Envoyer"); form.append(field,send); chat.appendChild(form);
           form.onsubmit=function(e){e.preventDefault(); if(!field.value.trim())return; send.disabled=true;
             db.from("wil_messages").insert({conversation_id:c.id,sender_id:admin.id,body:field.value.trim()}).then(function(x){if(x.error)throw x.error;return db.from("wil_conversations").update({status:"answered",updated_at:new Date().toISOString()}).eq("id",c.id);})
-            .then(function(x){if(x.error)throw x.error;return db.from("wil_notifications").insert({user_id:c.user_id,title:"Nouvelle réponse de Woldjy Impact Lab",body:"Vous avez reçu une réponse.",kind:"message"});})
             .then(function(x){if(x.error)throw x.error;b.click();}).catch(function(x){alert(x.message);send.disabled=false;});
           };
         }; list.appendChild(b);});
